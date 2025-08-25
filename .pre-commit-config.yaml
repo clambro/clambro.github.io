@@ -2,14 +2,12 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
-      - id: check-yaml
-      - id: check-added-large-files
-      - id: check-json
-      - id: check-toml
-      - id: end-of-file-fixer
-        args: [--insert-final-newline]
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
       - id: check-added-large-files
         args: [--maxkb=500]
 
