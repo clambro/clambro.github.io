@@ -1,15 +1,125 @@
 ---
 import Base from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+// Get all projects and sort by date (newest first)
+const projects = await getCollection('projects');
+const sortedProjects = projects.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
 ---
 
-<Base title="Projects — clambro">
+<Base title="Projects">
   <h1>Projects</h1>
-  <ul>
-    <li>
-      <strong><a href="/projects/pokemon-ai">Pokémon AI</a></strong>
-      <div class="muted">
-        Landing page with about, repo/docs links, and related posts.
-      </div>
-    </li>
-  </ul>
+  <p class="muted">
+    A collection of my work in ML, backend engineering, and AI.
+  </p>
+
+  <div class="projects">
+    {
+      sortedProjects.map((project) => (
+        <article class="project">
+          <h2>
+            <a href={`/projects/${project.slug}`}>{project.data.title}</a>
+          </h2>
+          <p class="muted">{project.data.description}</p>
+          <div class="project-links">
+            {project.data.github && (
+              <a
+                href={project.data.github}
+                target="_blank"
+                rel="noopener"
+                class="project-link"
+              >
+                GitHub
+              </a>
+            )}
+            {project.data.demo && (
+              <a
+                href={project.data.demo}
+                target="_blank"
+                rel="noopener"
+                class="project-link"
+              >
+                Demo
+              </a>
+            )}
+          </div>
+        </article>
+      ))
+    }
+  </div>
 </Base>
+
+<style>
+  .projects {
+    margin-top: 2rem;
+  }
+
+  .project {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #1e232b;
+  }
+
+  .project:last-child {
+    border-bottom: none;
+  }
+
+  .project h2 {
+    margin: 0 0 0.5rem 0;
+  }
+
+  .project h2 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .project h2 a:hover {
+    color: var(--accent);
+  }
+
+  .project-meta {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    background: #1a2230;
+    border: 1px solid #2a3445;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+
+  .project-links {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+  }
+
+  .project-link {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    background: #1a2230;
+    border: 1px solid #2a3445;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+
+  .project-link:hover {
+    background: var(--accent);
+    color: #0b0c10;
+    border-color: var(--accent);
+    text-decoration: none;
+  }
+</style>
