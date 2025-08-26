@@ -1,5 +1,0 @@
-site_name: Costa Lambrinoudis
-theme:
-  name: material
-nav:
-  - Home: index.md

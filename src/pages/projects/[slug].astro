@@ -1,0 +1,155 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+type Props = CollectionEntry<'projects'>;
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+
+<Base title={`${project.data.title}`}>
+  <article class="project-page">
+    <header class="project-header">
+      <h1>{project.data.title}</h1>
+      <p class="project-description">{project.data.description}</p>
+
+      <div class="project-meta">
+        {
+          project.data.tags && (
+            <div class="tags">
+              {project.data.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          )
+        }
+      </div>
+
+      <div class="project-links">
+        {
+          project.data.github && (
+            <a
+              href={project.data.github}
+              target="_blank"
+              rel="noopener"
+              class="project-link"
+            >
+              GitHub
+            </a>
+          )
+        }
+      </div>
+    </header>
+
+    <div class="project-content">
+      <Content />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .project-page {
+    max-width: 800px;
+  }
+
+  .project-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #1e232b;
+  }
+
+  .project-description {
+    font-size: 1.2rem;
+    color: var(--muted);
+    margin: 1rem 0;
+  }
+
+  .project-meta {
+    margin: 1.5rem 0;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    background: #1a2230;
+    border: 1px solid #2a3445;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .project-link {
+    display: inline-block;
+    padding: 0.6rem 1rem;
+    background: #1a2230;
+    border: 1px solid #2a3445;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+
+  .project-link:hover {
+    background: var(--accent);
+    color: #0b0c10;
+    border-color: var(--accent);
+    text-decoration: none;
+  }
+
+  .project-content {
+    line-height: 1.7;
+  }
+
+  .project-content h2 {
+    margin: 2rem 0 1rem 0;
+    color: var(--text);
+  }
+
+  .project-content h3 {
+    margin: 1.5rem 0 0.5rem 0;
+    color: var(--text);
+  }
+
+  .project-content p {
+    margin: 1rem 0;
+  }
+
+  .project-content ul,
+  .project-content ol {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .project-content li {
+    margin: 0.5rem 0;
+  }
+
+  .project-content a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .project-content a:hover {
+    text-decoration: underline;
+  }
+</style>
