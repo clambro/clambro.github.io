@@ -10,45 +10,69 @@ export async function getStaticPaths() {
   }));
 }
 
-type Props = CollectionEntry<'projects'>;
+type Props = { project: CollectionEntry<'projects'> };
 
 const { project } = Astro.props;
 const { Content } = await project.render();
+const displayDate = project.data.date
+  ? project.data.date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      timeZone: 'UTC',
+    })
+  : null;
 ---
 
 <Base title={`${project.data.title}`}>
   <article class="project-page">
     <header class="project-header">
-      <h1>{project.data.title}</h1>
-      <p class="project-description">{project.data.description}</p>
-
-      <div class="project-meta">
-        {
-          project.data.tags && (
-            <div class="tags">
-              {project.data.tags.map((tag) => (
-                <span class="tag">{tag}</span>
-              ))}
-            </div>
-          )
-        }
-      </div>
-
-      <div class="project-links">
+      <div class="title-group">
+        <h1>{project.data.title}</h1>
         {
           project.data.github && (
             <a
               href={project.data.github}
               target="_blank"
-              rel="noopener"
-              class="project-link"
+              rel="noopener noreferrer"
+              class="github-link"
+              aria-label="GitHub Repository"
             >
-              GitHub
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <use href="/icons/github.svg#github" />
+              </svg>
             </a>
           )
         }
       </div>
+      <p class="project-description">{project.data.description}</p>
+      {
+        displayDate && (
+          <p class="project-date">
+            <time datetime={project.data.date.toISOString()}>
+              {displayDate}
+            </time>
+          </p>
+        )
+      }
     </header>
+
+    {
+      project.data.image && (
+        <div class="project-image">
+          <img
+            src={project.data.image}
+            alt={project.data.image_alt || project.data.title}
+            width="800"
+            height="450"
+          />
+        </div>
+      )
+    }
 
     <div class="project-content">
       <Content />
@@ -62,9 +86,31 @@ const { Content } = await project.render();
   }
 
   .project-header {
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #1e232b;
+    margin-bottom: 2rem;
+  }
+
+  .title-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .title-group h1 {
+    margin: 0;
+  }
+
+  .github-link {
+    color: var(--muted);
+    transition: color 0.2s ease;
+  }
+
+  .github-link:hover {
+    color: var(--accent);
+  }
+
+  .github-link svg {
+    display: block;
   }
 
   .project-description {
@@ -73,47 +119,21 @@ const { Content } = await project.render();
     margin: 1rem 0;
   }
 
-  .project-meta {
-    margin: 1.5rem 0;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
+  .project-date {
     font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 1rem;
   }
 
-  .tags {
-    display: flex;
-    gap: 0.5rem;
+  .project-image {
+    margin-bottom: 2rem;
   }
 
-  .tag {
-    background: #1a2230;
-    border: 1px solid #2a3445;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-  }
-
-  .project-links {
-    display: flex;
-    gap: 1rem;
-  }
-
-  .project-link {
-    display: inline-block;
-    padding: 0.6rem 1rem;
-    background: #1a2230;
-    border: 1px solid #2a3445;
+  .project-image img {
+    width: 100%;
+    height: auto;
     border-radius: 8px;
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-  }
-
-  .project-link:hover {
-    background: var(--accent);
-    color: #0b0c10;
-    border-color: var(--accent);
-    text-decoration: none;
+    border: 1px solid #1e232b;
   }
 
   .project-content {
