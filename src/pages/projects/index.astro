@@ -17,26 +17,52 @@ const sortedProjects = projects.sort(
 
   <div class="projects">
     {
-      sortedProjects.map((project) => (
-        <article class="project">
-          <h2>
-            <a href={`/projects/${project.slug}`}>{project.data.title}</a>
-          </h2>
-          <p class="muted">{project.data.description}</p>
-          <div class="project-links">
-            {project.data.github && (
-              <a
-                href={project.data.github}
-                target="_blank"
-                rel="noopener"
-                class="project-link"
-              >
-                GitHub
-              </a>
+      sortedProjects.map((project) => {
+        const displayDate = project.data.date
+          ? project.data.date.toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              timeZone: 'UTC',
+            })
+          : null;
+        return (
+          <article class="project">
+            <div class="title-group">
+              <h2>
+                <a href={`/projects/${project.slug}`}>{project.data.title}</a>
+              </h2>
+              {project.data.github && (
+                <a
+                  href={project.data.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="github-link"
+                  aria-label="GitHub Repository"
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <use href="/icons/github.svg#github" />
+                  </svg>
+                </a>
+              )}
+            </div>
+
+            <p class="muted">{project.data.description}</p>
+
+            {displayDate && (
+              <p class="project-date">
+                <time datetime={project.data.date.toISOString()}>
+                  {displayDate}
+                </time>
+              </p>
             )}
-          </div>
-        </article>
-      ))
+          </article>
+        );
+      })
     }
   </div>
 </Base>
@@ -56,47 +82,43 @@ const sortedProjects = projects.sort(
     border-bottom: none;
   }
 
-  .project h2 {
-    margin: 0 0 0.5rem 0;
+  .title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .title-group h2 {
+    margin: 0;
   }
 
   .project h2 a {
     color: var(--text);
     text-decoration: none;
+    transition: color 0.2s ease;
   }
 
   .project h2 a:hover {
     color: var(--accent);
   }
 
-  .project-meta {
-    margin-top: 0.5rem;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    font-size: 0.9rem;
+  .github-link {
+    color: var(--muted);
+    transition: color 0.2s ease;
   }
 
-  .project-links {
+  .github-link:hover {
+    color: var(--accent);
+  }
+
+  .github-link svg {
+    display: block;
+  }
+
+  .project-date {
+    font-size: 0.9rem;
+    color: var(--muted);
     margin-top: 1rem;
-    display: flex;
-    gap: 1rem;
-  }
-
-  .project-link {
-    display: inline-block;
-    padding: 0.4rem 0.8rem;
-    background: #1a2230;
-    border: 1px solid #2a3445;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-  }
-
-  .project-link:hover {
-    background: var(--accent);
-    color: #0b0c10;
-    border-color: var(--accent);
-    text-decoration: none;
   }
 </style>
