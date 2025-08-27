@@ -1,6 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/BaseLayout.astro';
+import InfinityMirror from '../../components/InfinityMirror.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -27,7 +28,7 @@ const displayDate = project.data.date
   <article class="project-page">
     <header class="project-header">
       <div class="title-group">
-        <h1>{project.data.title}</h1>
+        <h1>Project: {project.data.title}</h1>
         {
           project.data.github && (
             <a
@@ -62,7 +63,11 @@ const displayDate = project.data.date
     </header>
 
     {
-      project.data.image && (
+      project.slug === 'personal-website' ? (
+        <div class="project-image">
+          <InfinityMirror project={project.data} displayDate={displayDate} />
+        </div>
+      ) : project.data.image ? (
         <div class="project-image">
           <img
             src={project.data.image}
@@ -71,7 +76,7 @@ const displayDate = project.data.date
             height="450"
           />
         </div>
-      )
+      ) : null
     }
 
     <div class="project-content">
