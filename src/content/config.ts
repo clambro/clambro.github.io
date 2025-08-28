@@ -9,6 +9,7 @@ const projects = defineCollection({
     github: z.string().url(),
     image: z.string().optional(),
     image_alt: z.string().optional(),
+    is_featured: z.boolean().default(false),
   }),
 });
 

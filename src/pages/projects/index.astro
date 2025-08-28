@@ -1,12 +1,17 @@
 ---
 import Base from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import ProjectPreview from '../../components/ProjectPreview.astro';
 
 // Get all projects and sort by date (newest first)
 const projects = await getCollection('projects');
 const sortedProjects = projects.sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+// Filter into featured and other projects
+const featuredProjects = sortedProjects.filter((p) => p.data.is_featured);
+const otherProjects = sortedProjects.filter((p) => !p.data.is_featured);
 ---
 
 <Base title="Projects">
@@ -15,110 +20,46 @@ const sortedProjects = projects.sort(
     A collection of my work in ML, backend engineering, and AI.
   </p>
 
-  <div class="projects">
-    {
-      sortedProjects.map((project) => {
-        const displayDate = project.data.date
-          ? project.data.date.toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              timeZone: 'UTC',
-            })
-          : null;
-        return (
-          <article class="project">
-            <div class="title-group">
-              <h2>
-                <a href={`/projects/${project.slug}`}>{project.data.title}</a>
-              </h2>
-              {project.data.github && (
-                <a
-                  href={project.data.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="github-link"
-                  aria-label="GitHub Repository"
-                >
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <use href="/icons/github.svg#github" />
-                  </svg>
-                </a>
-              )}
-            </div>
+  {
+    featuredProjects.length > 0 && (
+      <section class="project-section">
+        <h2>Featured Projects</h2>
+        <div class="projects">
+          {featuredProjects.map((project) => (
+            <ProjectPreview project={project} />
+          ))}
+        </div>
+      </section>
+    )
+  }
 
-            <p class="muted">{project.data.description}</p>
-
-            {displayDate && (
-              <p class="project-date">
-                <time datetime={project.data.date.toISOString()}>
-                  {displayDate}
-                </time>
-              </p>
-            )}
-          </article>
-        );
-      })
-    }
-  </div>
+  {
+    otherProjects.length > 0 && (
+      <section class="project-section">
+        <h2>Other Projects</h2>
+        <div class="projects">
+          {otherProjects.map((project) => (
+            <ProjectPreview project={project} />
+          ))}
+        </div>
+      </section>
+    )
+  }
 </Base>
 
 <style>
+  .project-section {
+    margin-top: 4rem;
+  }
+
+  .project-section h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+  }
+
   .projects {
-    margin-top: 2rem;
-  }
-
-  .project {
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #1e232b;
-  }
-
-  .project:last-child {
-    border-bottom: none;
-  }
-
-  .title-group {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .title-group h2 {
-    margin: 0;
-  }
-
-  .project h2 a {
-    color: var(--text);
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  .project h2 a:hover {
-    color: var(--accent);
-  }
-
-  .github-link {
-    color: var(--muted);
-    transition: color 0.2s ease;
-  }
-
-  .github-link:hover {
-    color: var(--accent);
-  }
-
-  .github-link svg {
-    display: block;
-  }
-
-  .project-date {
-    font-size: 0.9rem;
-    color: var(--muted);
-    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
   }
 </style>
