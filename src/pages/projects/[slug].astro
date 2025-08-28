@@ -10,46 +10,53 @@ export async function getStaticPaths() {
   }));
 }
 
-type Props = CollectionEntry<'projects'>;
+type Props = { project: CollectionEntry<'projects'> };
 
 const { project } = Astro.props;
 const { Content } = await project.render();
+const displayDate = project.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  timeZone: 'UTC',
+});
 ---
 
 <Base title={`${project.data.title}`}>
   <article class="project-page">
     <header class="project-header">
-      <h1>{project.data.title}</h1>
+      <div class="title-group">
+        <h1>Project: {project.data.title}</h1>
+        <a
+          href={project.data.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="github-link"
+          aria-label="GitHub Repository"
+        >
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+            <use href="/icons/github.svg#github"></use>
+          </svg>
+        </a>
+      </div>
       <p class="project-description">{project.data.description}</p>
-
-      <div class="project-meta">
-        {
-          project.data.tags && (
-            <div class="tags">
-              {project.data.tags.map((tag) => (
-                <span class="tag">{tag}</span>
-              ))}
-            </div>
-          )
-        }
-      </div>
-
-      <div class="project-links">
-        {
-          project.data.github && (
-            <a
-              href={project.data.github}
-              target="_blank"
-              rel="noopener"
-              class="project-link"
-            >
-              GitHub
-            </a>
-          )
-        }
-      </div>
+      {
+        displayDate && (
+          <p class="project-date">
+            <time datetime={project.data.date.toISOString()}>
+              {displayDate}
+            </time>
+          </p>
+        )
+      }
     </header>
-
+    <div class="project-image">
+      <img
+        src={project.data.image}
+        alt={project.data.image_alt}
+        width="800"
+        height="450"
+      />
+    </div>
     <div class="project-content">
       <Content />
     </div>
@@ -59,12 +66,35 @@ const { Content } = await project.render();
 <style>
   .project-page {
     max-width: 800px;
+    margin-inline: auto;
   }
 
   .project-header {
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #1e232b;
+    margin-bottom: 2rem;
+  }
+
+  .title-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .title-group h1 {
+    margin: 0;
+  }
+
+  .github-link {
+    color: var(--muted);
+    transition: color 0.2s ease;
+  }
+
+  .github-link:hover {
+    color: var(--accent);
+  }
+
+  .github-link svg {
+    display: block;
   }
 
   .project-description {
@@ -73,83 +103,28 @@ const { Content } = await project.render();
     margin: 1rem 0;
   }
 
-  .project-meta {
-    margin: 1.5rem 0;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
+  .project-date {
     font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 1rem;
   }
 
-  .tags {
+  .project-image {
+    margin-bottom: 2rem;
     display: flex;
-    gap: 0.5rem;
+    justify-content: center;
   }
 
-  .tag {
-    background: #1a2230;
-    border: 1px solid #2a3445;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-  }
-
-  .project-links {
-    display: flex;
-    gap: 1rem;
-  }
-
-  .project-link {
-    display: inline-block;
-    padding: 0.6rem 1rem;
-    background: #1a2230;
-    border: 1px solid #2a3445;
+  .project-image img {
+    max-width: 100%;
+    max-height: 450px;
+    width: auto;
+    height: auto;
     border-radius: 8px;
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-  }
-
-  .project-link:hover {
-    background: var(--accent);
-    color: #0b0c10;
-    border-color: var(--accent);
-    text-decoration: none;
+    border: 1px solid #1e232b;
   }
 
   .project-content {
     line-height: 1.7;
-  }
-
-  .project-content h2 {
-    margin: 2rem 0 1rem 0;
-    color: var(--text);
-  }
-
-  .project-content h3 {
-    margin: 1.5rem 0 0.5rem 0;
-    color: var(--text);
-  }
-
-  .project-content p {
-    margin: 1rem 0;
-  }
-
-  .project-content ul,
-  .project-content ol {
-    margin: 1rem 0;
-    padding-left: 1.5rem;
-  }
-
-  .project-content li {
-    margin: 0.5rem 0;
-  }
-
-  .project-content a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-
-  .project-content a:hover {
-    text-decoration: underline;
   }
 </style>

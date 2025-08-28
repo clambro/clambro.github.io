@@ -5,8 +5,11 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    tags: z.array(z.string()),
+    date: z.string().transform((str: string) => new Date(str)),
     github: z.string().url(),
+    image: z.string(),
+    image_alt: z.string(),
+    is_featured: z.boolean().default(false),
   }),
 });
 
