@@ -61,24 +61,14 @@ const displayDate = project.data.date
         )
       }
     </header>
-
-    {
-      project.slug === 'personal-website' ? (
-        <div class="project-image">
-          <InfinityMirror project={project.data} displayDate={displayDate} />
-        </div>
-      ) : project.data.image ? (
-        <div class="project-image">
-          <img
-            src={project.data.image}
-            alt={project.data.image_alt || project.data.title}
-            width="800"
-            height="450"
-          />
-        </div>
-      ) : null
-    }
-
+    <div class="project-image">
+      <img
+        src={project.data.image}
+        alt={project.data.image_alt || project.data.title}
+        width="800"
+        height="450"
+      />
+    </div>
     <div class="project-content">
       <Content />
     </div>

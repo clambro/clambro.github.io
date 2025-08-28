@@ -4,7 +4,7 @@ description: 'My personal portfolio and blog, built with Astro.'
 date: '2025-09'
 github: 'https://github.com/clambro/clambro.github.io'
 image: '/images/projects/personal-website.jpg'
-image_alt: 'A screenshot of the personal website homepage, showing a clean, dark-themed layout.'
+image_alt: 'An Inception meme.'
 ---
 
 ## Overview
