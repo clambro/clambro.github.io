@@ -1,7 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/BaseLayout.astro';
-import InfinityMirror from '../../components/InfinityMirror.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -15,13 +14,11 @@ type Props = { project: CollectionEntry<'projects'> };
 
 const { project } = Astro.props;
 const { Content } = await project.render();
-const displayDate = project.data.date
-  ? project.data.date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      timeZone: 'UTC',
-    })
-  : null;
+const displayDate = project.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  timeZone: 'UTC',
+});
 ---
 
 <Base title={`${project.data.title}`}>
@@ -29,26 +26,17 @@ const displayDate = project.data.date
     <header class="project-header">
       <div class="title-group">
         <h1>Project: {project.data.title}</h1>
-        {
-          project.data.github && (
-            <a
-              href={project.data.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="github-link"
-              aria-label="GitHub Repository"
-            >
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <use href="/icons/github.svg#github" />
-              </svg>
-            </a>
-          )
-        }
+        <a
+          href={project.data.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="github-link"
+          aria-label="GitHub Repository"
+        >
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+            <use href="/icons/github.svg#github"></use>
+          </svg>
+        </a>
       </div>
       <p class="project-description">{project.data.description}</p>
       {
@@ -64,7 +52,7 @@ const displayDate = project.data.date
     <div class="project-image">
       <img
         src={project.data.image}
-        alt={project.data.image_alt || project.data.title}
+        alt={project.data.image_alt}
         width="800"
         height="450"
       />
