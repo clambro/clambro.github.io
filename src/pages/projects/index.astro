@@ -9,7 +9,6 @@ const sortedProjects = projects.sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
 
-// Filter into featured and other projects
 const featuredProjects = sortedProjects.filter((p) => p.data.is_featured);
 const otherProjects = sortedProjects.filter((p) => !p.data.is_featured);
 ---
@@ -49,7 +48,8 @@ const otherProjects = sortedProjects.filter((p) => !p.data.is_featured);
 
 <style>
   .project-section {
-    margin-top: 4rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 
   .project-section h2 {
