@@ -146,28 +146,6 @@ a:hover {
   text-decoration: none;
 }
 
-.hero {
-  display: grid;
-  gap: 1rem;
-  padding: 3rem;
-  border-radius: 18px;
-  background: linear-gradient(180deg, #111317, #0d0f13);
-  border: 1px solid #1e232b;
-  text-align: center;
-  justify-items: center;
-}
-
-.hero h1 {
-  margin: 0;
-  font-size: clamp(1.8rem, 3vw, 3rem);
-}
-
-.hero .links {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
 .button {
   display: inline-block;
   padding: 0.6rem 0.9rem;
