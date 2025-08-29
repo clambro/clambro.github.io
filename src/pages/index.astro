@@ -1,19 +1,143 @@
 ---
-import Base from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
 ---
 
-<Base title="Homepage">
-  <section class="hero">
-    <h1>Costa Lambrinoudis</h1>
-    <p class="muted">
-      Welcome to my personal website. This site is currently under construction.
-    </p>
-    <div class="links">
-      <a class="button" href="/projects/pokemon-ai">Pokémon AI</a>
-      <a class="button" href="https://github.com/clambro">GitHub</a>
-      <a class="button" href="https://www.linkedin.com/in/costa-lambrinoudis"
-        >LinkedIn</a
-      >
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Costa Lambrinoudis</title>
+    <meta name="description" content="ML + Backend | Projects, Blog, Resume" />
+    <link rel="icon" href="/icons/favicon.svg" />
+  </head>
+  <body>
+    <section class="hero">
+      <h1>Costa Lambrinoudis</h1>
+      <p class="muted">
+        Welcome to my personal website. This site is currently under
+        construction.
+      </p>
+      <div class="links">
+        <a class="button" href="/projects">Projects</a>
+        <a
+          href="https://github.com/clambro"
+          target="_blank"
+          rel="noopener"
+          aria-label="GitHub"
+          class="social-link"
+        >
+          <svg viewBox="0 0 24 24">
+            <use href="/icons/github.svg#github"></use>
+          </svg>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/costa-lambrinoudis"
+          target="_blank"
+          rel="noopener"
+          aria-label="LinkedIn"
+          class="social-link"
+        >
+          <svg viewBox="0 0 24 24">
+            <use href="/icons/linkedin.svg#linkedin"></use>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <div class="copyright">
+      © {new Date().getFullYear()} Costa Lambrinoudis
     </div>
-  </section>
-</Base>
+
+    <style>
+      body {
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .hero {
+        display: grid;
+        border-radius: 18px;
+        background: linear-gradient(180deg, #111317, #0d0f13);
+        border: 1px solid #1e232b;
+        text-align: center;
+        justify-items: center;
+        min-width: 400px;
+        max-width: 800px;
+        width: clamp(400px, 50vw, 800px);
+        padding: clamp(2rem, 4vw, 4rem);
+      }
+
+      .hero h1 {
+        margin: 0;
+        font-size: clamp(1.8rem, 4vw, 4rem);
+      }
+
+      .hero .links {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .button {
+        display: inline-block;
+        padding: clamp(0.6rem, 1.5vw, 1rem) clamp(0.9rem, 2vw, 1.5rem);
+        border-radius: 10px;
+        background: #1a2230;
+        border: 1px solid #2a3445;
+        color: var(--text);
+        transition: all 0.2s ease;
+        font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+      }
+
+      .button:hover {
+        background: #2a3445;
+        text-decoration: none;
+      }
+
+      .muted {
+        color: var(--muted);
+        font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+      }
+
+      .social-link {
+        display: inline-block;
+        padding: clamp(0.6rem, 1.5vw, 1rem);
+        border-radius: 10px;
+        background: #1a2230;
+        border: 1px solid #2a3445;
+        color: var(--text);
+        transition: all 0.2s ease;
+        font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .social-link:hover {
+        background: #2a3445;
+        text-decoration: none;
+        opacity: 1;
+      }
+
+      .social-link svg {
+        width: clamp(18px, 2vw, 24px);
+        height: clamp(18px, 2vw, 24px);
+        fill: #e8eaf0;
+        opacity: 0.9;
+        transition: opacity 0.2s ease;
+      }
+
+      .copyright {
+        position: absolute;
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+    </style>
+  </body>
+</html>

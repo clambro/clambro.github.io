@@ -40,19 +40,15 @@ const displayDate = project.data.date.toLocaleDateString('en-US', {
         </a>
       </div>
       <p class="project-description">{project.data.description}</p>
-      {
-        displayDate && (
-          <p class="project-date">
-            <time datetime={project.data.date.toISOString()}>
-              {displayDate}
-            </time>
-          </p>
-        )
-      }
+      <p class="project-date">
+        <time datetime={project.data.date.toISOString()}>
+          {displayDate}
+        </time>
+      </p>
     </header>
     <div class="project-image">
       <Image
-        src={project.data.image.src}
+        src={project.data.image as ImageMetadata}
         alt={project.data.image_alt}
         width={800}
         height={450}
