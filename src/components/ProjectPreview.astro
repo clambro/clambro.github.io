@@ -21,10 +21,8 @@ const displayDate = project.data.date.toLocaleDateString('en-US', {
         <Image
           src={project.data.image.src}
           alt={project.data.image_alt}
-          width="400"
-          height="225"
-          loading="lazy"
-          decoding="async"
+          width={400}
+          height={225}
         />
       </div>
     )
