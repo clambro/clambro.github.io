@@ -1,17 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
 import '../styles/global.css';
 
 const {
   title = "Costa Lambrinoudis's Personal Portfolio",
   description = 'ML + Backend | Projects, Blog, Resume',
 } = Astro.props;
-
-// Get featured projects and sort by date
-const allProjects = await getCollection('projects');
-const featuredProjects = allProjects
-  .filter((project) => project.data.is_featured)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <html lang="en">
@@ -26,19 +19,7 @@ const featuredProjects = allProjects
     <header class="site-header">
       <a class="brand" href="/">Costa Lambrinoudis</a>
       <nav class="nav">
-        <details class="menu">
-          <summary>Projects</summary>
-          <ul class="menu-list">
-            {
-              featuredProjects.map((project) => (
-                <li>
-                  <a href={`/projects/${project.slug}`}>{project.data.title}</a>
-                </li>
-              ))
-            }
-            <li><a href="/projects">All projects</a></li>
-          </ul>
-        </details>
+        <a href="/projects">Projects</a>
       </nav>
       <nav class="social">
         <a

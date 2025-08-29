@@ -79,6 +79,19 @@ a:hover {
   align-items: center;
 }
 
+.nav a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  color: var(--text);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
 .social-link {
   display: flex;
   align-items: center;
