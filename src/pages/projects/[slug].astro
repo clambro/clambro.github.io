@@ -48,7 +48,7 @@ const displayDate = project.data.date.toLocaleDateString('en-US', {
     </header>
     <div class="project-image">
       <Image
-        src={project.data.image.src}
+        src={project.data.image as ImageMetadata}
         alt={project.data.image_alt}
         width={800}
         height={450}

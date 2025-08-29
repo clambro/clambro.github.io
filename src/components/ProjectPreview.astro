@@ -17,7 +17,7 @@ const displayDate = project.data.date.toLocaleDateString('en-US', {
 <a href={`/projects/${project.slug}`} class="project-card">
   <div class="image-wrapper">
     <Image
-      src={project.data.image.src}
+      src={project.data.image as ImageMetadata}
       alt={project.data.image_alt}
       width={400}
       height={225}
