@@ -1,19 +1,92 @@
 ---
-import Base from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
 ---
 
-<Base title="Homepage">
-  <section class="hero">
-    <h1>Costa Lambrinoudis</h1>
-    <p class="muted">
-      Welcome to my personal website. This site is currently under construction.
-    </p>
-    <div class="links">
-      <a class="button" href="/projects/pokemon-ai">Pokémon AI</a>
-      <a class="button" href="https://github.com/clambro">GitHub</a>
-      <a class="button" href="https://www.linkedin.com/in/costa-lambrinoudis"
-        >LinkedIn</a
-      >
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Costa Lambrinoudis</title>
+    <meta name="description" content="ML + Backend | Projects, Blog, Resume" />
+    <link rel="icon" href="/icons/favicon.svg" />
+  </head>
+  <body>
+    <section class="hero">
+      <h1>Costa Lambrinoudis</h1>
+      <p class="muted">
+        Welcome to my personal website. This site is currently under
+        construction.
+      </p>
+      <div class="links">
+        <a class="button" href="/projects/pokemon-ai">Pokémon AI</a>
+        <a class="button" href="https://github.com/clambro">GitHub</a>
+        <a class="button" href="https://www.linkedin.com/in/costa-lambrinoudis"
+          >LinkedIn</a
+        >
+      </div>
+    </section>
+
+    <div class="copyright">
+      © {new Date().getFullYear()} Costa Lambrinoudis
     </div>
-  </section>
-</Base>
+
+    <style>
+      body {
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .hero {
+        display: grid;
+        gap: 1rem;
+        padding: 3rem;
+        border-radius: 18px;
+        background: linear-gradient(180deg, #111317, #0d0f13);
+        border: 1px solid #1e232b;
+        text-align: center;
+        justify-items: center;
+      }
+
+      .hero h1 {
+        margin: 0;
+        font-size: clamp(1.8rem, 3vw, 3rem);
+      }
+
+      .hero .links {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .button {
+        display: inline-block;
+        padding: 0.6rem 0.9rem;
+        border-radius: 10px;
+        background: #1a2230;
+        border: 1px solid #2a3445;
+        color: var(--text);
+        transition: all 0.2s ease;
+      }
+
+      .button:hover {
+        background: #2a3445;
+        text-decoration: none;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .copyright {
+        position: absolute;
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+    </style>
+  </body>
+</html>
