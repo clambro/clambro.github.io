@@ -15,24 +15,20 @@ const displayDate = project.data.date.toLocaleDateString('en-US', {
 ---
 
 <a href={`/projects/${project.slug}`} class="project-card">
-  {
-    project.data.image && (
-      <div class="image-wrapper">
-        <Image
-          src={project.data.image.src}
-          alt={project.data.image_alt}
-          width={400}
-          height={225}
-        />
-      </div>
-    )
-  }
+  <div class="image-wrapper">
+    <Image
+      src={project.data.image.src}
+      alt={project.data.image_alt}
+      width={400}
+      height={225}
+    />
+  </div>
   <div class="card-content">
     <div class="title-group">
       <h3>{project.data.title}</h3>
     </div>
     <p class="description">{project.data.description}</p>
-    {displayDate && <p class="date">{displayDate}</p>}
+    <p class="date">{displayDate}</p>
   </div>
 </a>
 
