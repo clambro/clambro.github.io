@@ -19,10 +19,28 @@ import '../styles/global.css';
       </p>
       <div class="links">
         <a class="button" href="/projects/pokemon-ai">Pokémon AI</a>
-        <a class="button" href="https://github.com/clambro">GitHub</a>
-        <a class="button" href="https://www.linkedin.com/in/costa-lambrinoudis"
-          >LinkedIn</a
+        <a
+          href="https://github.com/clambro"
+          target="_blank"
+          rel="noopener"
+          aria-label="GitHub"
+          class="social-link"
         >
+          <svg viewBox="0 0 24 24">
+            <use href="/icons/github.svg#github"></use>
+          </svg>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/costa-lambrinoudis"
+          target="_blank"
+          rel="noopener"
+          aria-label="LinkedIn"
+          class="social-link"
+        >
+          <svg viewBox="0 0 24 24">
+            <use href="/icons/linkedin.svg#linkedin"></use>
+          </svg>
+        </a>
       </div>
     </section>
 
@@ -60,6 +78,7 @@ import '../styles/global.css';
         gap: 1rem;
         flex-wrap: wrap;
         justify-content: center;
+        align-items: center;
       }
 
       .button {
@@ -81,6 +100,33 @@ import '../styles/global.css';
       .muted {
         color: var(--muted);
         font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+      }
+
+      .social-link {
+        display: inline-block;
+        padding: clamp(0.6rem, 1.5vw, 1rem) clamp(0.9rem, 2vw, 1.5rem);
+        border-radius: 10px;
+        background: #1a2230;
+        border: 1px solid #2a3445;
+        color: var(--text);
+        transition: all 0.2s ease;
+        font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .social-link:hover {
+        background: #2a3445;
+        text-decoration: none;
+      }
+
+      .social-link svg {
+        width: clamp(18px, 2vw, 24px);
+        height: clamp(18px, 2vw, 24px);
+        fill: #e8eaf0;
+        opacity: 0.9;
+        transition: opacity 0.2s ease;
       }
 
       .copyright {
