@@ -17,34 +17,36 @@ const {
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="/">Costa Lambrinoudis</a>
-      <nav class="nav">
-        <a href="/projects">Projects</a>
-      </nav>
-      <nav class="social">
-        <a
-          href="https://github.com/clambro"
-          target="_blank"
-          rel="noopener"
-          aria-label="GitHub"
-          class="social-link"
-        >
-          <svg viewBox="0 0 24 24">
-            <use href="/icons/github.svg#github"></use>
-          </svg>
-        </a>
-        <a
-          href="https://www.linkedin.com/in/costa-lambrinoudis"
-          target="_blank"
-          rel="noopener"
-          aria-label="LinkedIn"
-          class="social-link"
-        >
-          <svg viewBox="0 0 24 24">
-            <use href="/icons/linkedin.svg#linkedin"></use>
-          </svg>
-        </a>
-      </nav>
+      <div>
+        <a class="brand" href="/">Costa Lambrinoudis</a>
+        <nav class="nav">
+          <a href="/projects">Projects</a>
+        </nav>
+        <nav class="social">
+          <a
+            href="https://github.com/clambro"
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub"
+            class="social-link"
+          >
+            <svg viewBox="0 0 24 24">
+              <use href="/icons/github.svg#github"></use>
+            </svg>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/costa-lambrinoudis"
+            target="_blank"
+            rel="noopener"
+            aria-label="LinkedIn"
+            class="social-link"
+          >
+            <svg viewBox="0 0 24 24">
+              <use href="/icons/linkedin.svg#linkedin"></use>
+            </svg>
+          </a>
+        </nav>
+      </div>
     </header>
 
     <main class="container">
@@ -52,7 +54,9 @@ const {
     </main>
 
     <footer class="site-footer">
-      <small>© {new Date().getFullYear()} Costa Lambrinoudis</small>
+      <div>
+        <small>© {new Date().getFullYear()} Costa Lambrinoudis</small>
+      </div>
     </footer>
   </body>
 </html>

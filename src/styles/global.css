@@ -49,15 +49,31 @@ a:hover {
 
 .site-header,
 .site-footer {
+  background: var(--panel);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  padding: 0;
+}
+
+.site-header > div,
+.site-footer > div {
   display: grid;
   grid-template-columns: 1fr auto auto;
   align-items: center;
   gap: 1rem;
   padding: 0.9rem 1.2rem;
-  background: var(--panel);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.site-footer > div {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  text-align: center;
+  padding: 0.5rem 1.2rem;
 }
 
 .site-footer {
