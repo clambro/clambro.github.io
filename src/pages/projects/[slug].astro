@@ -1,6 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -50,11 +51,11 @@ const displayDate = project.data.date.toLocaleDateString('en-US', {
       }
     </header>
     <div class="project-image">
-      <img
-        src={project.data.image}
+      <Image
+        src={project.data.image.src}
         alt={project.data.image_alt}
-        width="800"
-        height="450"
+        width={800}
+        height={450}
       />
     </div>
     <div class="project-content">

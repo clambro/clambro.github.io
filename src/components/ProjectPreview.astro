@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 
 interface Props {
   project: CollectionEntry<'projects'>;
@@ -17,13 +18,11 @@ const displayDate = project.data.date.toLocaleDateString('en-US', {
   {
     project.data.image && (
       <div class="image-wrapper">
-        <img
-          src={project.data.image}
+        <Image
+          src={project.data.image.src}
           alt={project.data.image_alt}
-          width="400"
-          height="225"
-          loading="lazy"
-          decoding="async"
+          width={400}
+          height={225}
         />
       </div>
     )
