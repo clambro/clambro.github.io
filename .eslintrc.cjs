@@ -15,9 +15,6 @@ module.exports = {
     {
       files: ['*.astro'],
       parser: 'astro-eslint-parser',
-      rules: {
-        // Add any Astro-specific rules here
-      },
     },
   ],
 };

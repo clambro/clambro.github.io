@@ -14,4 +14,16 @@ const projects = defineCollection({
     }),
 });
 
-export const collections = { projects };
+const blog = defineCollection({
+  type: 'content',
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      subtitle: z.string(),
+      date: z.coerce.date(),
+      image: image().optional(),
+      image_alt: z.string().optional(),
+    }),
+});
+
+export const collections = { projects, blog };
