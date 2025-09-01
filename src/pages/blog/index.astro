@@ -7,13 +7,17 @@ const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
 
-function preview(text: string, max = 220) {
-  const clean = text
-    .replace(/<[^>]+>/g, '')
-    .replace(/\s+/g, ' ')
+// Pre-process all posts to get their previews
+const postsWithPreviews = posts.map((post) => {
+  let preview = post.body
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Replace [text](url) with text
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '') // Remove images ![alt](url)
+    .replace(/\s+/g, ' ') // Normalize whitespace
     .trim();
-  return clean.length > max ? clean.slice(0, max - 1) + '…' : clean;
-}
+
+  preview = preview.length > 220 ? preview.slice(0, 219) + '…' : preview;
+  return { ...post, preview };
+});
 ---
 
 <Base title="Blog">
@@ -22,7 +26,7 @@ function preview(text: string, max = 220) {
 
   <ul class="post-list">
     {
-      posts.map((post) => (
+      postsWithPreviews.map((post) => (
         <li class="post-item">
           <a href={`/blog/${post.slug}`} class="post-link">
             <h2 class="post-title">{post.data.title}</h2>
@@ -35,7 +39,7 @@ function preview(text: string, max = 220) {
                 ))}
               </span>
             </p>
-            <p class="post-preview">{preview(post.body)}</p>
+            <p class="post-preview">{post.preview}</p>
           </a>
         </li>
       ))
