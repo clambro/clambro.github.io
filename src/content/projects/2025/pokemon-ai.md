@@ -6,6 +6,7 @@ github: 'https://github.com/clambro/ai-plays-pokemon'
 image: '../../../images/projects/2025/pokemon-ai.jpg'
 image_alt: 'A screenshot showing the Pokémon AI workflow in action.'
 is_featured: true
+blog_tag: 'pokemon-ai'
 ---
 
 ## Overview

@@ -5,6 +5,7 @@ date: '2021-06'
 github: 'https://github.com/clambro/2048-Micro-Genetic'
 image: '../../../images/projects/2021/genetic-2048.jpg'
 image_alt: 'An image of the game 2048.'
+blog_tag: 'genetic-2048'
 ---
 
 ## Overview
