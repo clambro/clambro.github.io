@@ -1,4 +1,5 @@
 import { defineCollection, z } from 'astro:content';
+import { validateBlogTag } from '../types/blog_tag';
 
 const projects = defineCollection({
   type: 'content',
@@ -11,7 +12,7 @@ const projects = defineCollection({
       image: image(),
       image_alt: z.string(),
       is_featured: z.boolean().default(false),
-      blog_tag: z.string(),
+      blog_tag: z.string().transform(validateBlogTag),
     }),
 });
 
@@ -22,9 +23,9 @@ const blog = defineCollection({
       title: z.string(),
       subtitle: z.string(),
       date: z.coerce.date(),
-      tags: z.array(z.string()),
       image: image().optional(),
       image_alt: z.string().optional(),
+      tags: z.array(z.string()).transform((tags) => tags.map(validateBlogTag)),
     }),
 });
 
