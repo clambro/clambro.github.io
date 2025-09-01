@@ -2,6 +2,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
+import { formatDateWithOrdinal } from '../../utils/date';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -15,11 +16,7 @@ type Props = { post: CollectionEntry<'blog'> };
 
 const { post } = Astro.props as Props;
 const { Content } = await post.render();
-const displayDate = post.data.date.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  timeZone: 'UTC',
-});
+const displayDate = formatDateWithOrdinal(post.data.date);
 ---
 
 <Base title={`${post.data.title}`}>
