@@ -27,7 +27,14 @@ function preview(text: string, max = 220) {
           <a href={`/blog/${post.slug}`} class="post-link">
             <h2 class="post-title">{post.data.title}</h2>
             <p class="post-subtitle">{post.data.subtitle}</p>
-            <p class="post-meta">{formatDateWithOrdinal(post.data.date)}</p>
+            <p class="post-meta">
+              {formatDateWithOrdinal(post.data.date)}
+              <span class="post-tags">
+                {post.data.tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </span>
+            </p>
             <p class="post-preview">{preview(post.body)}</p>
           </a>
         </li>

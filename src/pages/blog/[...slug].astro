@@ -26,6 +26,9 @@ const displayDate = formatDateWithOrdinal(post.data.date);
       <p class="subtitle">{post.data.subtitle}</p>
       <p class="date">
         <time datetime={post.data.date.toISOString()}>{displayDate}</time>
+        <span class="post-tags">
+          {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+        </span>
       </p>
       {
         post.data.image && (

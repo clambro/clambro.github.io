@@ -204,3 +204,20 @@ h2 {
 .muted {
   color: var(--muted);
 }
+
+.post-tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.tag {
+  background: var(--muted);
+  color: var(--text);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: lowercase;
+}

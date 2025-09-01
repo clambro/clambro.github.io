@@ -2,6 +2,7 @@
 title: 'Welcome'
 subtitle: 'An introduction to the blog'
 date: '2025-09-01'
+tags: ['general', 'pokemon-ai']
 ---
 
 Welcome to my blog. This is where I will post articles about projects that I'm working on or other things that I'm exploring.
