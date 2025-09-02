@@ -1,0 +1,150 @@
+---
+import { BlogTag } from '../types/blog_tag';
+
+export interface Props {
+  tags: Array<{ tag: BlogTag; count: number }>;
+  years: Array<{ tag: string; count: number }>;
+  totalCount: number;
+  layout: 'vertical' | 'horizontal';
+  showTitle?: boolean;
+  className?: string;
+}
+
+const {
+  tags,
+  years,
+  totalCount,
+  layout,
+  showTitle = true,
+  className = '',
+} = Astro.props;
+---
+
+<div class={`tag-filter-container ${layout} ${className}`}>
+  {showTitle && <h3>Filter by Tag</h3>}
+  <div class="tag-filter">
+    <button class="filter-btn active" data-tag="all">
+      All Posts ({totalCount})
+    </button>
+    {
+      years.map(({ tag, count }) => (
+        <button class="filter-btn" data-tag={`year-${tag}`}>
+          {tag} ({count})
+        </button>
+      ))
+    }
+    {
+      tags.map(({ tag, count }) => (
+        <button class="filter-btn" data-tag={tag}>
+          {tag} ({count})
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .tag-filter-container.vertical {
+    position: sticky;
+    top: 2rem;
+    padding: 1.5rem;
+    height: fit-content;
+    width: 175px;
+    display: block;
+  }
+
+  .tag-filter-container.vertical h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    color: var(--muted);
+  }
+
+  .tag-filter-container.vertical .tag-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .tag-filter-container.horizontal {
+    margin: 2rem 0 1rem 0;
+    min-height: 44px;
+    display: none;
+  }
+
+  .tag-filter-container.horizontal .tag-filter {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--muted) transparent;
+  }
+
+  .tag-filter-container.horizontal .tag-filter::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .tag-filter-container.horizontal .tag-filter::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .tag-filter-container.horizontal .tag-filter::-webkit-scrollbar-thumb {
+    background: var(--muted);
+    border-radius: 2px;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid #2a3445;
+    color: var(--muted);
+    padding: 0.5rem 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+  }
+
+  .tag-filter-container.vertical .filter-btn {
+    text-align: left;
+    width: 100%;
+  }
+
+  .tag-filter-container.horizontal .filter-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+    width: auto;
+    min-width: fit-content;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  .filter-btn.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+
+  /* Responsive behavior */
+  @media (max-width: 768px) {
+    .tag-filter-container.vertical {
+      display: none;
+    }
+
+    .tag-filter-container.horizontal {
+      display: block;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .tag-filter-container.horizontal {
+      display: none;
+    }
+
+    .tag-filter-container.vertical {
+      display: block;
+    }
+  }
+</style>

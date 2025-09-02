@@ -3,8 +3,9 @@ title: 'This Website'
 description: 'My personal portfolio and blog, built with Astro.'
 date: '2025-09'
 github: 'https://github.com/clambro/clambro.github.io'
-image: '../../images/projects/personal-website.jpg'
+image: '../../../images/projects/2025/personal-website.jpg'
 image_alt: 'An Inception meme.'
+blog_tag: 'website'
 ---
 
 ## Overview

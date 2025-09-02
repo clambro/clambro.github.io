@@ -15,6 +15,13 @@ type Props = { project: CollectionEntry<'projects'> };
 
 const { project } = Astro.props;
 const { Content } = await project.render();
+
+// Get related blog posts that contain the project's blog_tag
+const allBlogPosts = await getCollection('blog');
+const relatedPosts = allBlogPosts
+  .filter((post) => post.data.tags.includes(project.data.blog_tag))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
 const displayDate = project.data.date.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
@@ -52,11 +59,33 @@ const displayDate = project.data.date.toLocaleDateString('en-US', {
         alt={project.data.image_alt}
         width={800}
         height={450}
+        fit="contain"
       />
     </div>
     <div class="project-content">
       <Content />
     </div>
+
+    {
+      relatedPosts.length > 0 && (
+        <>
+          <hr class="divider" />
+          <section class="related-posts">
+            <h2>Related Blog Posts</h2>
+            <ul class="post-list">
+              {relatedPosts.map((post) => (
+                <li class="post-item">
+                  <a href={`/blog/${post.slug}`} class="post-link">
+                    <h3 class="post-title">{post.data.title}</h3>
+                    <p class="post-subtitle">{post.data.subtitle}</p>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </>
+      )
+    }
   </article>
 </Base>
 
@@ -123,5 +152,56 @@ const displayDate = project.data.date.toLocaleDateString('en-US', {
 
   .project-content {
     line-height: 1.7;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #2a3445;
+    margin: 3rem 0;
+  }
+
+  .related-posts h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .post-item {
+    margin-bottom: 1rem;
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .post-item::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .post-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .post-link:hover {
+    text-decoration: underline;
+  }
+
+  .post-title {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.1rem;
+  }
+
+  .post-subtitle {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
   }
 </style>

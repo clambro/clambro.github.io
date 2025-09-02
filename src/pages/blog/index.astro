@@ -1,0 +1,207 @@
+---
+import Base from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { formatDateWithOrdinal } from '../../utils/date';
+import { BlogTag } from '../../types/blog_tag';
+import TagFilter from '../../components/TagFilter.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+// Use the BlogTag enum for consistent filtering
+const allTags = Object.values(BlogTag);
+
+// Extract years from posts and sort in descending order
+const allYears = [
+  ...new Set(posts.map((post) => post.data.date.getFullYear())),
+].sort((a, b) => b - a);
+
+// Pre-process tags with counts for the filter component
+const tagsWithCounts = allTags
+  .map((tag) => {
+    const count = posts.filter((post) => post.data.tags.includes(tag)).length;
+    return { tag, count };
+  })
+  .filter(({ count }) => count > 0);
+
+// Pre-process years with counts
+const yearsWithCounts = allYears.map((year) => {
+  const count = posts.filter(
+    (post) => post.data.date.getFullYear() === year
+  ).length;
+  return { tag: year.toString(), count };
+});
+
+// Pre-process all posts to get their previews
+const postsWithPreviews = posts.map((post) => {
+  let preview = post.body
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Replace [text](url) with text
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '') // Remove images ![alt](url)
+    .replace(/\s+/g, ' ') // Normalize whitespace
+    .trim();
+
+  preview = preview.length > 220 ? preview.slice(0, 219) + '…' : preview;
+  return { ...post, preview };
+});
+---
+
+<Base title="Blog">
+  <div class="blog-layout">
+    <div class="blog-content">
+      <h1>Blog</h1>
+      <p class="muted">Thoughts on AI, engineering, and more.</p>
+
+      <!-- Horizontal Tag Filter (Mobile Only) -->
+      <TagFilter
+        tags={tagsWithCounts}
+        years={yearsWithCounts}
+        totalCount={posts.length}
+        layout="horizontal"
+        showTitle={false}
+        className="mobile-only"
+      />
+
+      <ul class="post-list">
+        {
+          postsWithPreviews.map((post) => (
+            <li
+              class="post-item"
+              data-tags={post.data.tags.join(' ')}
+              data-year={post.data.date.getFullYear()}
+            >
+              <a href={`/blog/${post.slug}`} class="post-link">
+                <h2 class="post-title">{post.data.title}</h2>
+                <p class="post-subtitle">{post.data.subtitle}</p>
+                <p class="post-meta">
+                  {formatDateWithOrdinal(post.data.date)}
+                  <span class="post-tags">
+                    {post.data.tags.map((tag) => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </span>
+                </p>
+                <p class="post-preview">{post.preview}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Tag Filter Sidebar (Desktop Only) -->
+    <aside class="tag-sidebar">
+      <TagFilter
+        tags={tagsWithCounts}
+        years={yearsWithCounts}
+        totalCount={posts.length}
+        layout="vertical"
+        showTitle={true}
+        className="desktop-only"
+      />
+    </aside>
+  </div>
+</Base>
+
+<script>
+  // Tag filtering functionality
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const postItems = document.querySelectorAll('.post-item');
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const selectedTag = (button as HTMLElement).dataset.tag;
+
+      // Update active button state
+      filterButtons.forEach((btn) => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      // Filter posts
+      postItems.forEach((post) => {
+        const postElement = post as HTMLElement;
+        let shouldShow = false;
+
+        if (selectedTag === 'all') {
+          shouldShow = true;
+        } else if (selectedTag?.startsWith('year-')) {
+          const year = selectedTag.replace('year-', '');
+          shouldShow = postElement.dataset.year === year;
+        } else {
+          shouldShow =
+            postElement.dataset.tags?.includes(selectedTag || '') || false;
+        }
+
+        postElement.style.display = shouldShow ? 'block' : 'none';
+      });
+    });
+  });
+</script>
+
+<style>
+  .blog-layout {
+    display: grid;
+    grid-template-columns: 1fr 175px;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .blog-content {
+    min-width: 0; /* Prevents grid overflow */
+  }
+
+  .post-list {
+    list-style: none;
+    margin: 2rem 0 0 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .post-item {
+    border-bottom: 1px solid #2a3445;
+  }
+
+  .post-item:first-child {
+    border-top: 1px solid #2a3445;
+  }
+
+  .post-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    padding: 1rem 0;
+    width: 100%;
+  }
+
+  .post-title {
+    margin: 0 0 0.25rem 0;
+  }
+
+  .post-subtitle {
+    margin: 0 0 0.5rem 0;
+    color: var(--muted);
+  }
+
+  .post-meta {
+    margin: 0 0 0.75rem 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .post-preview {
+    margin: 0;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    .blog-layout {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .tag-sidebar {
+      display: none;
+    }
+  }
+</style>
