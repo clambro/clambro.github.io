@@ -1,6 +1,9 @@
 ---
+import { BlogTag } from '../types/blog_tag';
+
 export interface Props {
-  tags: Array<{ tag: string; count: number }>;
+  tags: Array<{ tag: BlogTag; count: number }>;
+  years: Array<{ tag: string; count: number }>;
   totalCount: number;
   layout: 'vertical' | 'horizontal';
   showTitle?: boolean;
@@ -9,6 +12,7 @@ export interface Props {
 
 const {
   tags,
+  years,
   totalCount,
   layout,
   showTitle = true,
@@ -22,6 +26,13 @@ const {
     <button class="filter-btn active" data-tag="all">
       All Posts ({totalCount})
     </button>
+    {
+      years.map(({ tag, count }) => (
+        <button class="filter-btn" data-tag={`year-${tag}`}>
+          {tag} ({count})
+        </button>
+      ))
+    }
     {
       tags.map(({ tag, count }) => (
         <button class="filter-btn" data-tag={tag}>

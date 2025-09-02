@@ -12,6 +12,11 @@ const posts = (await getCollection('blog')).sort(
 // Use the BlogTag enum for consistent filtering
 const allTags = Object.values(BlogTag);
 
+// Extract years from posts and sort in descending order
+const allYears = [
+  ...new Set(posts.map((post) => post.data.date.getFullYear())),
+].sort((a, b) => b - a);
+
 // Pre-process tags with counts for the filter component
 const tagsWithCounts = allTags
   .map((tag) => {
@@ -19,6 +24,14 @@ const tagsWithCounts = allTags
     return { tag, count };
   })
   .filter(({ count }) => count > 0);
+
+// Pre-process years with counts
+const yearsWithCounts = allYears.map((year) => {
+  const count = posts.filter(
+    (post) => post.data.date.getFullYear() === year
+  ).length;
+  return { tag: year.toString(), count };
+});
 
 // Pre-process all posts to get their previews
 const postsWithPreviews = posts.map((post) => {
@@ -42,6 +55,7 @@ const postsWithPreviews = posts.map((post) => {
       <!-- Horizontal Tag Filter (Mobile Only) -->
       <TagFilter
         tags={tagsWithCounts}
+        years={yearsWithCounts}
         totalCount={posts.length}
         layout="horizontal"
         showTitle={false}
@@ -51,7 +65,11 @@ const postsWithPreviews = posts.map((post) => {
       <ul class="post-list">
         {
           postsWithPreviews.map((post) => (
-            <li class="post-item" data-tags={post.data.tags.join(' ')}>
+            <li
+              class="post-item"
+              data-tags={post.data.tags.join(' ')}
+              data-year={post.data.date.getFullYear()}
+            >
               <a href={`/blog/${post.slug}`} class="post-link">
                 <h2 class="post-title">{post.data.title}</h2>
                 <p class="post-subtitle">{post.data.subtitle}</p>
@@ -75,6 +93,7 @@ const postsWithPreviews = posts.map((post) => {
     <aside class="tag-sidebar">
       <TagFilter
         tags={tagsWithCounts}
+        years={yearsWithCounts}
         totalCount={posts.length}
         layout="vertical"
         showTitle={true}
@@ -100,14 +119,19 @@ const postsWithPreviews = posts.map((post) => {
       // Filter posts
       postItems.forEach((post) => {
         const postElement = post as HTMLElement;
-        if (
-          selectedTag === 'all' ||
-          postElement.dataset.tags?.includes(selectedTag || '')
-        ) {
-          postElement.style.display = 'block';
+        let shouldShow = false;
+
+        if (selectedTag === 'all') {
+          shouldShow = true;
+        } else if (selectedTag?.startsWith('year-')) {
+          const year = selectedTag.replace('year-', '');
+          shouldShow = postElement.dataset.year === year;
         } else {
-          postElement.style.display = 'none';
+          shouldShow =
+            postElement.dataset.tags?.includes(selectedTag || '') || false;
         }
+
+        postElement.style.display = shouldShow ? 'block' : 'none';
       });
     });
   });
