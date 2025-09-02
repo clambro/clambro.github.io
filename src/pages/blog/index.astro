@@ -2,10 +2,14 @@
 import Base from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { formatDateWithOrdinal } from '../../utils/date';
+import { BlogTag } from '../../types/blog_tag';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+// Use the BlogTag enum for consistent filtering
+const allTags = Object.values(BlogTag);
 
 // Pre-process all posts to get their previews
 const postsWithPreviews = posts.map((post) => {
@@ -21,33 +25,113 @@ const postsWithPreviews = posts.map((post) => {
 ---
 
 <Base title="Blog">
-  <h1>Blog</h1>
-  <p class="muted">Thoughts on AI, engineering, and more.</p>
+  <div class="blog-layout">
+    <div class="blog-content">
+      <h1>Blog</h1>
+      <p class="muted">Thoughts on AI, engineering, and more.</p>
 
-  <ul class="post-list">
-    {
-      postsWithPreviews.map((post) => (
-        <li class="post-item">
-          <a href={`/blog/${post.slug}`} class="post-link">
-            <h2 class="post-title">{post.data.title}</h2>
-            <p class="post-subtitle">{post.data.subtitle}</p>
-            <p class="post-meta">
-              {formatDateWithOrdinal(post.data.date)}
-              <span class="post-tags">
-                {post.data.tags.map((tag) => (
-                  <span class="tag">{tag}</span>
-                ))}
-              </span>
-            </p>
-            <p class="post-preview">{post.preview}</p>
-          </a>
-        </li>
-      ))
-    }
-  </ul>
+      <ul class="post-list">
+        {
+          postsWithPreviews.map((post) => (
+            <li class="post-item" data-tags={post.data.tags.join(' ')}>
+              <a href={`/blog/${post.slug}`} class="post-link">
+                <h2 class="post-title">{post.data.title}</h2>
+                <p class="post-subtitle">{post.data.subtitle}</p>
+                <p class="post-meta">
+                  {formatDateWithOrdinal(post.data.date)}
+                  <span class="post-tags">
+                    {post.data.tags.map((tag) => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </span>
+                </p>
+                <p class="post-preview">{post.preview}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Tag Filter Sidebar -->
+    <aside class="tag-sidebar">
+      <h3>Filter by Tag</h3>
+      <div class="tag-filter">
+        <button class="filter-btn active" data-tag="all">
+          All Posts ({posts.length})
+        </button>
+        {
+          allTags.map((tag) => {
+            const count = posts.filter((post) =>
+              post.data.tags.includes(tag)
+            ).length;
+            return (
+              <button class="filter-btn" data-tag={tag}>
+                {tag} ({count})
+              </button>
+            );
+          })
+        }
+      </div>
+    </aside>
+  </div>
 </Base>
 
+<script>
+  // Tag filtering functionality
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const postItems = document.querySelectorAll('.post-item');
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const selectedTag = (button as HTMLElement).dataset.tag;
+
+      // Update active button state
+      filterButtons.forEach((btn) => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      // Filter posts
+      postItems.forEach((post) => {
+        const postElement = post as HTMLElement;
+        if (
+          selectedTag === 'all' ||
+          postElement.dataset.tags?.includes(selectedTag || '')
+        ) {
+          postElement.style.display = 'block';
+        } else {
+          postElement.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
 <style>
+  .blog-layout {
+    display: grid;
+    grid-template-columns: 1fr 175px;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .blog-content {
+    min-width: 0; /* Prevents grid overflow */
+  }
+
+  .tag-sidebar {
+    position: sticky;
+    top: 2rem;
+    padding: 1.5rem;
+    height: fit-content;
+    width: 175px; /* 70% of 250px */
+  }
+
+  .tag-sidebar h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    color: var(--muted);
+  }
+
   .post-list {
     list-style: none;
     margin: 2rem 0 0 0;
@@ -90,5 +174,48 @@ const postsWithPreviews = posts.map((post) => {
     margin: 0;
     color: var(--text);
     line-height: 1.6;
+  }
+
+  .tag-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid #2a3445;
+    color: var(--muted);
+    padding: 0.5rem 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    text-align: left;
+    width: 100%;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  .filter-btn.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    .blog-layout {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .tag-sidebar {
+      position: static;
+      order: -1;
+    }
   }
 </style>
