@@ -3,6 +3,7 @@ import Base from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { formatDateWithOrdinal } from '../../utils/date';
 import { BlogTag } from '../../types/blog_tag';
+import TagFilter from '../../components/TagFilter.astro';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
@@ -10,6 +11,14 @@ const posts = (await getCollection('blog')).sort(
 
 // Use the BlogTag enum for consistent filtering
 const allTags = Object.values(BlogTag);
+
+// Pre-process tags with counts for the filter component
+const tagsWithCounts = allTags
+  .map((tag) => {
+    const count = posts.filter((post) => post.data.tags.includes(tag)).length;
+    return { tag, count };
+  })
+  .filter(({ count }) => count > 0);
 
 // Pre-process all posts to get their previews
 const postsWithPreviews = posts.map((post) => {
@@ -29,6 +38,15 @@ const postsWithPreviews = posts.map((post) => {
     <div class="blog-content">
       <h1>Blog</h1>
       <p class="muted">Thoughts on AI, engineering, and more.</p>
+
+      <!-- Horizontal Tag Filter (Mobile Only) -->
+      <TagFilter
+        tags={tagsWithCounts}
+        totalCount={posts.length}
+        layout="horizontal"
+        showTitle={false}
+        className="mobile-only"
+      />
 
       <ul class="post-list">
         {
@@ -53,26 +71,15 @@ const postsWithPreviews = posts.map((post) => {
       </ul>
     </div>
 
-    <!-- Tag Filter Sidebar -->
+    <!-- Tag Filter Sidebar (Desktop Only) -->
     <aside class="tag-sidebar">
-      <h3>Filter by Tag</h3>
-      <div class="tag-filter">
-        <button class="filter-btn active" data-tag="all">
-          All Posts ({posts.length})
-        </button>
-        {
-          allTags.map((tag) => {
-            const count = posts.filter((post) =>
-              post.data.tags.includes(tag)
-            ).length;
-            return (
-              <button class="filter-btn" data-tag={tag}>
-                {tag} ({count})
-              </button>
-            );
-          })
-        }
-      </div>
+      <TagFilter
+        tags={tagsWithCounts}
+        totalCount={posts.length}
+        layout="vertical"
+        showTitle={true}
+        className="desktop-only"
+      />
     </aside>
   </div>
 </Base>
@@ -116,20 +123,6 @@ const postsWithPreviews = posts.map((post) => {
 
   .blog-content {
     min-width: 0; /* Prevents grid overflow */
-  }
-
-  .tag-sidebar {
-    position: sticky;
-    top: 2rem;
-    padding: 1.5rem;
-    height: fit-content;
-    width: 175px; /* 70% of 250px */
-  }
-
-  .tag-sidebar h3 {
-    margin: 0 0 1rem 0;
-    font-size: 1.1rem;
-    color: var(--muted);
   }
 
   .post-list {
@@ -176,36 +169,6 @@ const postsWithPreviews = posts.map((post) => {
     line-height: 1.6;
   }
 
-  .tag-filter {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .filter-btn {
-    background: transparent;
-    border: 1px solid #2a3445;
-    color: var(--muted);
-    padding: 0.5rem 0.5rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 0.9rem;
-    text-align: left;
-    width: 100%;
-  }
-
-  .filter-btn:hover {
-    border-color: var(--accent);
-    color: var(--text);
-  }
-
-  .filter-btn.active {
-    background: var(--accent);
-    color: var(--bg);
-    border-color: var(--accent);
-  }
-
   /* Responsive design for smaller screens */
   @media (max-width: 768px) {
     .blog-layout {
@@ -214,8 +177,7 @@ const postsWithPreviews = posts.map((post) => {
     }
 
     .tag-sidebar {
-      position: static;
-      order: -1;
+      display: none;
     }
   }
 </style>
