@@ -7,4 +7,10 @@ export default defineConfig({
     layout: 'constrained',
     responsiveStyles: true,
   },
+  markdown: {
+    shikiConfig: {
+      theme: 'github-dark',
+      wrap: true,
+    },
+  },
 });
