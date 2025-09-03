@@ -14,10 +14,12 @@ const otherProjects = sortedProjects.filter((p) => !p.data.is_featured);
 ---
 
 <Base title="Projects">
-  <h1>Projects</h1>
-  <p class="muted">
-    A collection of my work in ML, backend engineering, and AI.
-  </p>
+  <div class="page-header">
+    <h1>Projects</h1>
+    <p class="muted">
+      A collection of my work in ML, backend engineering, and AI.
+    </p>
+  </div>
 
   {
     featuredProjects.length > 0 && (
@@ -47,6 +49,10 @@ const otherProjects = sortedProjects.filter((p) => !p.data.is_featured);
 </Base>
 
 <style>
+  .page-header {
+    margin-top: 3rem;
+  }
+
   .project-section {
     margin-top: 2rem;
     margin-bottom: 2rem;
