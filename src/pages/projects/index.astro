@@ -65,7 +65,15 @@ const otherProjects = sortedProjects.filter((p) => !p.data.is_featured);
 
   @media (min-width: 768px) {
     .projects {
-      grid-template-columns: repeat(2, 350px);
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 750px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .projects {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: none;
     }
   }
 </style>
