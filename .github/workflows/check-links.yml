@@ -29,4 +29,7 @@ jobs:
         with:
           paths: dist
           recurse: true
+          linksToSkip: | # These websites block the crawler.
+            https://www.linkedin.com
+            https://www.reddit.com
           verbosity: INFO
