@@ -29,6 +29,9 @@ jobs:
         with:
           paths: dist
           recurse: true
+          retry: true
+          timeout: 30
+          concurrency: 10
           linksToSkip: | # These websites block the crawler.
             https://www.linkedin.com
             https://www.reddit.com
