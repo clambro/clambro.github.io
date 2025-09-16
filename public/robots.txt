@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.costantinos.dev/sitemap-index.xml
+
+# Allow all search engines to crawl the site
+Crawl-delay: 1
