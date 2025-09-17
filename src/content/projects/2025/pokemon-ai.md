@@ -1,7 +1,7 @@
 ---
 title: 'Pokémon AI Workflow'
 description: 'An AI agent that plays Pokémon using a Gemini powered Junjo workflow.'
-date: '2025-08'
+date: '2025-08-24'
 github: 'https://github.com/clambro/ai-plays-pokemon'
 image: '../../../images/projects/2025/pokemon-ai.jpg'
 image_alt: 'A screenshot showing the Pokémon AI workflow in action.'

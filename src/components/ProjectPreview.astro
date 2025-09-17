@@ -1,17 +1,14 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
+import { formatDateWithOrdinal } from '../utils/date';
 
 interface Props {
   project: CollectionEntry<'projects'>;
 }
 const { project } = Astro.props;
 
-const displayDate = project.data.date.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  timeZone: 'UTC',
-});
+const displayDate = formatDateWithOrdinal(project.data.date);
 ---
 
 <a href={`/projects/${project.slug}`} class="project-card">
