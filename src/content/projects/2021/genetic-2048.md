@@ -1,7 +1,7 @@
 ---
 title: '2048 Genetic Algorithm'
 description: 'A neural network for solving 2048, trained by a micro-genetic algorithm.'
-date: '2021-06'
+date: '2021-06-06'
 github: 'https://github.com/clambro/2048-Micro-Genetic'
 image: '../../../images/projects/2021/genetic-2048.jpg'
 image_alt: 'An image of the game 2048.'
