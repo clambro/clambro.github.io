@@ -14,6 +14,14 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" href="/icons/favicon.svg" />
+
+    <!-- RSS Feed Discovery -->
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Costa Lambrinoudis - RSS Feed"
+      href="/feed.xml"
+    />
   </head>
   <body>
     <header class="site-header">
@@ -44,6 +52,16 @@ const {
           >
             <svg viewBox="0 0 24 24">
               <use href="/icons/linkedin.svg#linkedin"></use>
+            </svg>
+          </a>
+          <a
+            href="/feed.xml"
+            aria-label="RSS Feed"
+            class="social-link"
+            title="RSS feed"
+          >
+            <svg viewBox="0 0 24 24">
+              <use href="/icons/rss.svg#rss"></use>
             </svg>
           </a>
         </nav>
