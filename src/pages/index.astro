@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { siteConfig } from '../config';
 ---
 
 <html lang="en">
@@ -7,7 +8,7 @@ import '../styles/global.css';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Costa Lambrinoudis</title>
-    <meta name="description" content="ML + Backend | Projects, Blog, Resume" />
+    <meta name="description" content={siteConfig.description} />
     <link rel="icon" href="/icons/favicon.svg" />
 
     <!-- RSS Feed Discovery -->
@@ -22,14 +23,15 @@ import '../styles/global.css';
     <section class="hero">
       <h1>Costa Lambrinoudis</h1>
       <p class="muted">
-        Welcome to my personal website. This site is currently under
-        construction.
+        Started in physics, now building AI workflows and other cool things
       </p>
-      <div class="links">
+      <div class="main-buttons">
         <a class="button" href="/projects">Projects</a>
         <a class="button" href="/blog">Blog</a>
+      </div>
+      <div class="social-links">
         <a
-          href="https://github.com/clambro"
+          href={siteConfig.social.github}
           target="_blank"
           rel="noopener"
           aria-label="GitHub"
@@ -40,7 +42,7 @@ import '../styles/global.css';
           </svg>
         </a>
         <a
-          href="https://www.linkedin.com/in/costa-lambrinoudis"
+          href={siteConfig.social.linkedin}
           target="_blank"
           rel="noopener"
           aria-label="LinkedIn"
@@ -51,7 +53,18 @@ import '../styles/global.css';
           </svg>
         </a>
         <a
-          href="/feed.xml"
+          href={siteConfig.social.twitter}
+          target="_blank"
+          rel="noopener"
+          aria-label="X (Twitter)"
+          class="social-link"
+        >
+          <svg viewBox="0 0 24 24">
+            <use href="/icons/x.svg#x"></use>
+          </svg>
+        </a>
+        <a
+          href={siteConfig.social.rss}
           aria-label="RSS Feed"
           class="social-link"
           title="RSS feed"
@@ -92,23 +105,32 @@ import '../styles/global.css';
         font-size: clamp(1.8rem, 4vw, 4rem);
       }
 
-      .hero .links {
+      .hero .main-buttons {
         display: flex;
         gap: 1rem;
-        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .hero .social-links {
+        display: flex;
+        gap: 0.8rem;
         justify-content: center;
         align-items: center;
       }
 
       .button {
         display: inline-block;
-        padding: clamp(0.6rem, 1.5vw, 1rem) clamp(0.9rem, 2vw, 1.5rem);
+        padding: clamp(0.6rem, 1.5vw, 1rem) clamp(1.2rem, 2.5vw, 2rem);
         border-radius: 10px;
         background: #1a2230;
         border: 1px solid #2a3445;
         color: var(--text);
         transition: all 0.2s ease;
         font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+        min-width: 120px;
+        text-align: center;
       }
 
       .button:hover {
@@ -122,31 +144,29 @@ import '../styles/global.css';
       }
 
       .social-link {
-        display: inline-block;
-        padding: clamp(0.6rem, 1.5vw, 1rem);
-        border-radius: 10px;
-        background: #1a2230;
-        border: 1px solid #2a3445;
-        color: var(--text);
-        transition: all 0.2s ease;
-        font-size: clamp(0.9rem, 1.2vw, 1.1rem);
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 0.3rem;
+        transition: opacity 0.2s ease;
       }
 
       .social-link:hover {
-        background: #2a3445;
         text-decoration: none;
-        opacity: 1;
       }
 
       .social-link svg {
-        width: clamp(18px, 2vw, 24px);
-        height: clamp(18px, 2vw, 24px);
-        fill: #e8eaf0;
-        opacity: 0.9;
-        transition: opacity 0.2s ease;
+        width: 22px;
+        height: 22px;
+        fill: var(--muted);
+        opacity: 0.8;
+        transition: all 0.2s ease;
+      }
+
+      .social-link:hover svg {
+        fill: var(--accent);
+        opacity: 1;
+        transform: scale(1.1);
       }
 
       .copyright {
