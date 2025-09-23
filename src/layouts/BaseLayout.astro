@@ -1,17 +1,14 @@
 ---
 import '../styles/global.css';
 import { siteConfig } from '../config';
-
-const { title = 'Costa Lambrinoudis', description = siteConfig.description } =
-  Astro.props;
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <title>Costa Lambrinoudis</title>
+    <meta name="description" content={siteConfig.description} />
     <link rel="icon" href="/icons/favicon.svg" />
 
     <!-- RSS Feed Discovery -->
