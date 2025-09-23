@@ -147,26 +147,26 @@ import { siteConfig } from '../config';
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: clamp(0.4rem, 1vw, 0.6rem);
-        border-radius: 8px;
-        background: #1a2230;
-        border: 1px solid #2a3445;
-        color: var(--text);
-        transition: all 0.2s ease;
+        padding: 0.3rem;
+        transition: opacity 0.2s ease;
       }
 
       .social-link:hover {
-        background: #2a3445;
         text-decoration: none;
-        opacity: 1;
       }
 
       .social-link svg {
-        width: clamp(16px, 1.5vw, 20px);
-        height: clamp(16px, 1.5vw, 20px);
-        fill: #e8eaf0;
-        opacity: 0.9;
-        transition: opacity 0.2s ease;
+        width: 22px;
+        height: 22px;
+        fill: var(--muted);
+        opacity: 0.8;
+        transition: all 0.2s ease;
+      }
+
+      .social-link:hover svg {
+        fill: var(--accent);
+        opacity: 1;
+        transform: scale(1.1);
       }
 
       .copyright {
