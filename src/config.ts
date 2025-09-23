@@ -1,5 +1,5 @@
 export const siteConfig = {
-  description: 'ML + Backend | Projects & Blog',
+  description: 'AI Engineer | Projects & Blog',
   social: {
     github: 'https://github.com/clambro',
     linkedin: 'https://www.linkedin.com/in/costa-lambrinoudis',
