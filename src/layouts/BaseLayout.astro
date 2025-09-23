@@ -1,10 +1,9 @@
 ---
 import '../styles/global.css';
+import { siteConfig } from '../config';
 
-const {
-  title = "Costa Lambrinoudis's Personal Portfolio",
-  description = 'ML + Backend | Projects & Blog',
-} = Astro.props;
+const { title = 'Costa Lambrinoudis', description = siteConfig.description } =
+  Astro.props;
 ---
 
 <html lang="en">
@@ -33,7 +32,7 @@ const {
         </nav>
         <nav class="social">
           <a
-            href="https://github.com/clambro"
+            href={siteConfig.social.github}
             target="_blank"
             rel="noopener"
             aria-label="GitHub"
@@ -44,7 +43,7 @@ const {
             </svg>
           </a>
           <a
-            href="https://www.linkedin.com/in/costa-lambrinoudis"
+            href={siteConfig.social.linkedin}
             target="_blank"
             rel="noopener"
             aria-label="LinkedIn"
@@ -55,7 +54,7 @@ const {
             </svg>
           </a>
           <a
-            href="https://x.com/Clambr0"
+            href={siteConfig.social.twitter}
             target="_blank"
             rel="noopener"
             aria-label="X (Twitter)"
@@ -66,7 +65,7 @@ const {
             </svg>
           </a>
           <a
-            href="/feed.xml"
+            href={siteConfig.social.rss}
             aria-label="RSS Feed"
             class="social-link"
             title="RSS feed"
