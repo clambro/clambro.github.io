@@ -26,7 +26,11 @@ const relatedPosts = allBlogPosts
 const displayDate = formatDateWithOrdinal(project.data.date);
 ---
 
-<Base title={`${project.data.title}`}>
+<Base
+  title={project.data.title}
+  description={project.data.description}
+  type="article"
+>
   <article class="project-page">
     <header class="project-header">
       <div class="title-group">
