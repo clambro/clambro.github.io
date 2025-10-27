@@ -1,15 +1,36 @@
 ---
 import '../styles/global.css';
 import { siteConfig } from '../config';
+
+const canonicalUrl = new URL(Astro.url.pathname, siteConfig.siteUrl).href;
+const ogImage = new URL(siteConfig.ogImage, siteConfig.siteUrl).href;
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Costa Lambrinoudis</title>
+    <title>{siteConfig.title}</title>
     <meta name="description" content={siteConfig.description} />
     <link rel="icon" href="/icons/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={siteConfig.title} />
+    <meta property="og:description" content={siteConfig.description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={siteConfig.title} />
+    <meta property="og:site_name" content={siteConfig.title} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:creator" content={siteConfig.social.twitterHandle} />
+    <meta name="twitter:title" content={siteConfig.title} />
+    <meta name="twitter:description" content={siteConfig.description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={siteConfig.title} />
 
     <!-- RSS Feed Discovery -->
     <link
