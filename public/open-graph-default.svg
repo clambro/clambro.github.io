@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img">
+  <title>costantinos.dev — CL monogram with polar rings</title>
+  <desc>Centered CL monogram in a blue disc with concentric technical rings on a near-black background; domain beneath.</desc>
+
+  <!-- ===== Palette =====
+       Canvas: #0E0F13
+       Rings:  #2C3140 @ 35%
+       Disc:   #1D2EE1
+       Text:   #FFFFFF
+  -->
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0E0F13"/>
+
+  <!-- Concentric rings -->
+  <g stroke="#2C3140" stroke-width="1" fill="none" opacity="0.35" transform="translate(600,315)">
+    <!-- radii in px -->
+    <circle r="190"/>
+
+    <circle r="230"/>
+    <circle r="270"/>
+    <circle r="310"/>
+    <circle r="350"/>
+
+    <circle r="390"/>
+    <circle r="430"/>
+    <circle r="470"/>
+    <circle r="510"/>
+
+    <circle r="550"/>
+    <circle r="590"/>
+    <circle r="630"/>
+    <circle r="670"/>
+  </g>
+
+  <!-- Central disc with very soft shadow -->
+  <defs>
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <g filter="url(#softShadow)">
+    <circle cx="600" cy="315" r="150" fill="#1D2EE1"/>
+  </g>
+
+  <!-- Monogram -->
+  <text x="600" y="330"
+        fill="#FFFFFF"
+        font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, Cantarell, 'Noto Sans', sans-serif"
+        font-size="160"
+        font-weight="800"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        letter-spacing="2">
+    CL
+  </text>
+
+  <!-- Domain lockup -->
+  <text x="600" y="515"
+        fill="#FFFFFF"
+        opacity="0.92"
+        font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, Cantarell, 'Noto Sans', sans-serif"
+        font-size="32"
+        font-weight="600"
+        text-anchor="middle"
+        dominant-baseline="central"
+        letter-spacing="1">
+    costantinos.dev
+  </text>
+
+  <!-- Ultra subtle grain to reduce banding when rasterized/compressed -->
+  <defs>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" seed="7"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.035"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" filter="url(#grain)" opacity="0.06" pointer-events="none"/>
+</svg>
