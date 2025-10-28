@@ -1,6 +1,6 @@
 ---
 title: 'A Spaghettification Down Memory Lane'
-subtitle: 'Revisiting my undergraduate thesis after nearly a decade'
+subtitle: 'Revisiting my undergraduate thesis after nearly a decade.'
 date: '2025-10-27'
 tags: ['black-hole-thesis']
 ---
