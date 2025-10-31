@@ -5,9 +5,9 @@ date: '2025-10-27'
 tags: ['black-hole-thesis']
 ---
 
-Coming from a non-software background sometimes makes me feel insecure in my career. There are tons of things that I had to learn the hard way, or never learned at all. Low-level languages are a great example of this. My only previous experience with them was the trauma of using C++ for one of my algorithms courses in university. This was before I'd learned what an IDE is, and needless to say I did not enjoy the experience.
+Coming from a non-software background sometimes makes me feel insecure in my career. There are tons of things that I had to learn the hard way, or never learned at all, like low-level languages. My only previous experience with them was the trauma of using C++ for one of my algorithms courses in university. This was before I learned what an IDE is, and needless to say I did not enjoy the experience.
 
-More recently, one of my coworkers was talking about a Rust project that he was working on. The language's mathematical foundations piqued my interest, and I thought it might be fun and good for my own personal development to build my own little Rust project. Perhaps I could pick up some of those skills that I was never properly taught.
+More recently, one of my coworkers was talking about a Rust project that he was working on. The language's mathematical foundations piqued my interest. I thought it might be fun and good for my own personal development to build my own little Rust project. Perhaps I could pick up some of those skills that I never properly learned in school.
 
 ## Ancient History
 
@@ -35,7 +35,9 @@ I started, as I did in my thesis, with a warm up project to build a basic solver
 
 Once I'd gotten over my residual trauma from university, I found myself impressed by the speed and safety of Rust. It took me a couple of days to get the solver working to the required degree of accuracy, but I didn't run into any major roadblocks. The borrow checker flagged a bunch of issues that would have taken me ages to track down in C, and the code ran about 100x faster than my MATLAB solver ever did. Here's a video of the working wave equation solver in action:
 
-(Video of the wave simulation.)
+<div class="video-container">
+  <iframe src="https://www.youtube.com/embed/6SsDkPbTrOk" title="Wave simulation video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 ## Was ChatGPT Right?
 
@@ -55,8 +57,10 @@ Unfortunately, I was never able to solve the energy leak in ChatGPT's version of
 
 ChatGPT's solution didn't pan out, but the project was still an overall success. I resolved multiple issues from my original thesis, got much better final results, and even learned a bit about low-level programming. Between better hardware and better code, I now have a simulation that runs at 4x the level of accuracy and about 100x faster than my thesis simulations ever did, and the code is much more readable.
 
-Here's a video of black hole formation that's far flashier than anything I showed at my final thesis presentation. The sharp ring you see at the end is the event horizon forming. For a more detailed description of what's going on you can check out [the full documentation here](https://github.com/clambro/black-hole-thesis/blob/main/docs/description.md).
+Here's a video of black hole formation that's far flashier than anything I showed at my final thesis presentation. The sharp ring you see at the end is the event horizon forming. For a more detailed description of what's going on (and more videos!) you can check out [the full documentation here](https://github.com/clambro/black-hole-thesis/blob/main/docs/description.md).
 
-(Video of black hole formation)
+<div class="video-container">
+  <iframe src="https://youtube.com/embed/Eq4IcRezF-0" title="Wave simulation video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 My professor was right that I'd never go back after I started making money, but no one said I couldn't drop by for a visit. Nine years ago, I chose MATLAB because I knew my limits. This time around, I chose Rust because I'd grown past them. I did get more than I bargained for though. Instead of a quick learning exercise with an element of nostalgia, I fell into a month-long battle with overconfident language models and finicky simulations that may or may not converge depending on which side of the bed you woke up on. And I finally got an answer to that conversation from all those years ago: Yes, the compiled language approach was worth it; I just needed a decade of experience first.
