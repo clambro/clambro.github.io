@@ -121,6 +121,16 @@ const displayDate = formatDateWithOrdinal(post.data.date);
     max-height: 95vh;
     object-fit: contain;
   }
+
+  @media (max-width: 768px) {
+    .post-content :global(img) {
+      max-width: 100%;
+    }
+
+    .post-content :global(.video-container) {
+      max-width: 100%;
+    }
+  }
 </style>
 
 <script>
