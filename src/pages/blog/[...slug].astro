@@ -85,6 +85,18 @@ const displayDate = formatDateWithOrdinal(post.data.date);
     cursor: zoom-in;
   }
 
+  .post-content :global(.video-container) {
+    max-width: 50%;
+    margin: 2rem auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .post-content :global(.video-container iframe) {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
   :global(.image-modal) {
     position: fixed;
     top: 0;
