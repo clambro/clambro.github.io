@@ -101,22 +101,20 @@ a:hover {
 /* Mobile header layout */
 @media (max-width: 768px) {
   .site-header > div {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-    row-gap: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 1.5rem;
     text-align: center;
     padding: 0.6rem 1.2rem;
   }
 
   .site-header .brand {
-    grid-column: 1;
-    grid-row: 1;
+    flex-basis: 100%;
     line-height: 1.2;
   }
 
   .site-header .nav {
-    grid-column: 1;
-    grid-row: 2;
     justify-content: center;
     gap: 1.5rem;
   }
@@ -126,8 +124,6 @@ a:hover {
   }
 
   .site-header .social {
-    grid-column: 1;
-    grid-row: 3;
     justify-content: center;
     gap: 1rem;
   }
