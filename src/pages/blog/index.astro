@@ -35,7 +35,7 @@ const yearsWithCounts = allYears.map((year) => {
 
 // Pre-process all posts to get their previews
 const postsWithPreviews = posts.map((post) => {
-  let preview = post.body
+  let preview = (post.body || '') // Edge case where we haven't added body text yet
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Replace [text](url) with text
     .replace(/!\[([^\]]*)\]\([^)]+\)/g, '') // Remove images ![alt](url)
     .replace(/\s+/g, ' ') // Normalize whitespace
