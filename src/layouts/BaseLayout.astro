@@ -119,5 +119,39 @@ const ogImage = new URL(siteConfig.ogImage, siteConfig.siteUrl).href;
         <small>© {new Date().getFullYear()} Costa Lambrinoudis</small>
       </div>
     </footer>
+
+    <script>
+      let lastScrollY = window.scrollY;
+      let ticking = false;
+
+      const header = document.querySelector('.site-header');
+
+      function updateHeader() {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY < 10) {
+          // Near the top, always show header
+          header?.classList.remove('hide');
+        } else if (currentScrollY > lastScrollY) {
+          // Scrolling down
+          header?.classList.add('hide');
+        } else {
+          // Scrolling up
+          header?.classList.remove('hide');
+        }
+
+        lastScrollY = currentScrollY;
+        ticking = false;
+      }
+
+      function onScroll() {
+        if (!ticking) {
+          requestAnimationFrame(updateHeader);
+          ticking = true;
+        }
+      }
+
+      window.addEventListener('scroll', onScroll);
+    </script>
   </body>
 </html>

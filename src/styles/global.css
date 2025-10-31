@@ -76,14 +76,28 @@ a:hover {
   padding-inline: 1.5rem;
 }
 
-.site-header,
-.site-footer {
+.site-header {
   background: var(--panel);
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: 10;
   width: 100%;
   padding: 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+.site-header.hide {
+  transform: translateY(-100%);
+}
+
+.site-footer {
+  background: var(--panel);
+  width: 100%;
+  padding: 0;
+}
+
+body {
+  padding-top: 80px;
 }
 
 .site-header > div,
@@ -100,6 +114,10 @@ a:hover {
 
 /* Mobile header layout */
 @media (max-width: 768px) {
+  body {
+    padding-top: 120px;
+  }
+
   .site-header > div {
     display: flex;
     flex-wrap: wrap;
