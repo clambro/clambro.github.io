@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://www.costantinos.dev',
+  site: 'https://costantinos.dev',
   trailingSlash: 'never',
 
   image: {
