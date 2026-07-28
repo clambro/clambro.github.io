@@ -14,6 +14,8 @@ export enum BlogTag {
   POKEMON_AI = 'pokemon-ai',
   WEBSITE = 'website',
   BLACK_HOLE_THESIS = 'black-hole-thesis',
+  GRAPH_RECONSTRUCTION = 'graph-reconstruction',
+  REWATCH_COMPANION = 'rewatch-companion',
 }
 
 export function validateBlogTag(tag: string): BlogTag {
