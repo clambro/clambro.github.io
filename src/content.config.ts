@@ -9,7 +9,8 @@ const projects = defineCollection({
     z.object({
       title: z.string(),
       description: z.string(),
-      date: z.coerce.date(),
+      publishedDate: z.coerce.date(),
+      updatedDate: z.coerce.date().nullable(),
       github: z.url(),
       image: image(),
       image_alt: z.string(),
@@ -24,7 +25,7 @@ const blog = defineCollection({
     z.object({
       title: z.string(),
       subtitle: z.string(),
-      date: z.coerce.date(),
+      publishedDate: z.coerce.date(),
       image: image().optional(),
       image_alt: z.string().optional(),
       tags: z.array(z.string()).transform((tags) => tags.map(validateBlogTag)),

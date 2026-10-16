@@ -2,12 +2,12 @@
 import Base from '../../layouts/BaseLayout.astro';
 import { blogExcerpt } from '../../utils/blog-excerpt';
 import { getCollection } from 'astro:content';
-import { formatDateWithOrdinal } from '../../utils/date';
+import { formatDate } from '../../utils/date';
 import { BlogTag } from '../../types/blog_tag';
 import TagFilter from '../../components/TagFilter.astro';
 
 const posts = (await getCollection('blog')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+  (a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf()
 );
 
 // Use the BlogTag enum for consistent filtering
@@ -15,7 +15,7 @@ const allTags = Object.values(BlogTag);
 
 // Extract years from posts and sort in descending order
 const allYears = [
-  ...new Set(posts.map((post) => post.data.date.getUTCFullYear())),
+  ...new Set(posts.map((post) => post.data.publishedDate.getUTCFullYear())),
 ].sort((a, b) => b - a);
 
 // Pre-process tags with counts for the filter component
@@ -29,7 +29,7 @@ const tagsWithCounts = allTags
 // Pre-process years with counts
 const yearsWithCounts = allYears.map((year) => {
   const count = posts.filter(
-    (post) => post.data.date.getUTCFullYear() === year
+    (post) => post.data.publishedDate.getUTCFullYear() === year
   ).length;
   return { tag: year.toString(), count };
 });
@@ -64,13 +64,13 @@ const postsWithPreviews = posts.map((post) => ({
           <li
             class="post-item"
             data-tags={post.data.tags.join(' ')}
-            data-year={post.data.date.getUTCFullYear()}
+            data-year={post.data.publishedDate.getUTCFullYear()}
           >
             <a href={`/blog/${post.id}`} class="post-link">
               <h2 class="post-title">{post.data.title}</h2>
               <p class="post-subtitle">{post.data.subtitle}</p>
               <p class="post-meta">
-                {formatDateWithOrdinal(post.data.date)}
+                {formatDate(post.data.publishedDate)}
                 <span class="post-tags">
                   {post.data.tags.map((tag) => (
                     <span class="tag">{tag}</span>

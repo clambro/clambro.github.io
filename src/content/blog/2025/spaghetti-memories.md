@@ -1,7 +1,7 @@
 ---
 title: 'Spaghettifying Down Memory Lane'
 subtitle: 'Revisiting my undergraduate thesis after nearly a decade.'
-date: '2025-10-31'
+publishedDate: '2025-10-31'
 tags: ['black-hole-thesis']
 ---
 

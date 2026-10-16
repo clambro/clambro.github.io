@@ -1,7 +1,7 @@
 ---
 title: 'Welcome'
 subtitle: 'An introduction to the blog.'
-date: '2025-09-01'
+publishedDate: '2025-09-01'
 tags: ['general', 'website', 'pokemon-ai']
 ---
 
