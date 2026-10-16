@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/BaseLayout.astro';
+import { blogExcerpt } from '../../utils/blog-excerpt';
 import { getCollection } from 'astro:content';
 import { formatDateWithOrdinal } from '../../utils/date';
 import { BlogTag } from '../../types/blog_tag';
@@ -14,7 +15,7 @@ const allTags = Object.values(BlogTag);
 
 // Extract years from posts and sort in descending order
 const allYears = [
-  ...new Set(posts.map((post) => post.data.date.getFullYear())),
+  ...new Set(posts.map((post) => post.data.date.getUTCFullYear())),
 ].sort((a, b) => b - a);
 
 // Pre-process tags with counts for the filter component
@@ -28,22 +29,16 @@ const tagsWithCounts = allTags
 // Pre-process years with counts
 const yearsWithCounts = allYears.map((year) => {
   const count = posts.filter(
-    (post) => post.data.date.getFullYear() === year
+    (post) => post.data.date.getUTCFullYear() === year
   ).length;
   return { tag: year.toString(), count };
 });
 
-// Pre-process all posts to get their previews
-const postsWithPreviews = posts.map((post) => {
-  let preview = (post.body || '') // Edge case where we haven't added body text yet
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Replace [text](url) with text
-    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '') // Remove images ![alt](url)
-    .replace(/\s+/g, ' ') // Normalize whitespace
-    .trim();
-
-  preview = preview.length > 220 ? preview.slice(0, 219) + '…' : preview;
-  return { ...post, preview };
-});
+// Derive previews from the existing article content.
+const postsWithPreviews = posts.map((post) => ({
+  ...post,
+  preview: blogExcerpt(post.body ?? ''),
+}));
 ---
 
 <Base title="Blog" description="My personal blog.">
@@ -65,29 +60,27 @@ const postsWithPreviews = posts.map((post) => {
       />
 
       <ul class="post-list">
-        {
-          postsWithPreviews.map((post) => (
-            <li
-              class="post-item"
-              data-tags={post.data.tags.join(' ')}
-              data-year={post.data.date.getFullYear()}
-            >
-              <a href={`/blog/${post.id}`} class="post-link">
-                <h2 class="post-title">{post.data.title}</h2>
-                <p class="post-subtitle">{post.data.subtitle}</p>
-                <p class="post-meta">
-                  {formatDateWithOrdinal(post.data.date)}
-                  <span class="post-tags">
-                    {post.data.tags.map((tag) => (
-                      <span class="tag">{tag}</span>
-                    ))}
-                  </span>
-                </p>
-                <p class="post-preview">{post.preview}</p>
-              </a>
-            </li>
-          ))
-        }
+        {postsWithPreviews.map((post) => (
+          <li
+            class="post-item"
+            data-tags={post.data.tags.join(' ')}
+            data-year={post.data.date.getUTCFullYear()}
+          >
+            <a href={`/blog/${post.id}`} class="post-link">
+              <h2 class="post-title">{post.data.title}</h2>
+              <p class="post-subtitle">{post.data.subtitle}</p>
+              <p class="post-meta">
+                {formatDateWithOrdinal(post.data.date)}
+                <span class="post-tags">
+                  {post.data.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </span>
+              </p>
+              <p class="post-preview">{post.preview}</p>
+            </a>
+          </li>
+        ))}
       </ul>
     </div>
 
@@ -113,10 +106,14 @@ const postsWithPreviews = posts.map((post) => {
   filterButtons.forEach((button) => {
     button.addEventListener('click', () => {
       const selectedTag = (button as HTMLElement).dataset.tag;
+      if (!selectedTag) return;
 
       // Update active button state
-      filterButtons.forEach((btn) => btn.classList.remove('active'));
-      button.classList.add('active');
+      filterButtons.forEach((btn) => {
+        const active = (btn as HTMLElement).dataset.tag === selectedTag;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', String(active));
+      });
 
       // Filter posts
       postItems.forEach((post) => {
@@ -130,7 +127,7 @@ const postsWithPreviews = posts.map((post) => {
           shouldShow = postElement.dataset.year === year;
         } else {
           shouldShow =
-            postElement.dataset.tags?.includes(selectedTag || '') || false;
+            postElement.dataset.tags?.split(' ').includes(selectedTag) || false;
         }
 
         postElement.style.display = shouldShow ? 'block' : 'none';

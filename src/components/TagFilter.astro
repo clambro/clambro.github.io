@@ -23,23 +23,34 @@ const {
 <div class={`tag-filter-container ${layout} ${className}`}>
   {showTitle && <h3>Filter by Tag</h3>}
   <div class="tag-filter">
-    <button class="filter-btn active" data-tag="all">
+    <button
+      type="button"
+      class="filter-btn active"
+      data-tag="all"
+      aria-pressed="true"
+    >
       All Posts ({totalCount})
     </button>
-    {
-      years.map(({ tag, count }) => (
-        <button class="filter-btn" data-tag={`year-${tag}`}>
-          {tag} ({count})
-        </button>
-      ))
-    }
-    {
-      tags.map(({ tag, count }) => (
-        <button class="filter-btn" data-tag={tag}>
-          {tag} ({count})
-        </button>
-      ))
-    }
+    {years.map(({ tag, count }) => (
+      <button
+        type="button"
+        class="filter-btn"
+        aria-pressed="false"
+        data-tag={`year-${tag}`}
+      >
+        {tag} ({count})
+      </button>
+    ))}
+    {tags.map(({ tag, count }) => (
+      <button
+        type="button"
+        class="filter-btn"
+        aria-pressed="false"
+        data-tag={tag}
+      >
+        {tag} ({count})
+      </button>
+    ))}
   </div>
 </div>
 
