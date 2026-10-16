@@ -72,7 +72,7 @@ const postsWithPreviews = posts.map((post) => {
               data-tags={post.data.tags.join(' ')}
               data-year={post.data.date.getFullYear()}
             >
-              <a href={`/blog/${post.slug}`} class="post-link">
+              <a href={`/blog/${post.id}`} class="post-link">
                 <h2 class="post-title">{post.data.title}</h2>
                 <p class="post-subtitle">{post.data.subtitle}</p>
                 <p class="post-meta">
@@ -121,7 +121,7 @@ const postsWithPreviews = posts.map((post) => {
       // Filter posts
       postItems.forEach((post) => {
         const postElement = post as HTMLElement;
-        let shouldShow = false;
+        let shouldShow: boolean;
 
         if (selectedTag === 'all') {
           shouldShow = true;

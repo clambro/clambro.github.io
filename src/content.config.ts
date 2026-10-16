@@ -1,8 +1,10 @@
-import { defineCollection, z } from 'astro:content';
-import { validateBlogTag } from '../types/blog_tag';
+import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
+import { validateBlogTag } from './types/blog_tag';
 
 const projects = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -17,7 +19,7 @@ const projects = defineCollection({
 });
 
 const blog = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),

@@ -11,7 +11,7 @@ const { project } = Astro.props;
 const displayDate = formatDateWithOrdinal(project.data.date);
 ---
 
-<a href={`/projects/${project.slug}`} class="project-card">
+<a href={`/projects/${project.id}`} class="project-card">
   <div class="image-wrapper">
     <Image
       src={project.data.image as ImageMetadata}

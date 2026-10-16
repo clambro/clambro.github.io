@@ -1,5 +1,5 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import { formatDateWithOrdinal } from '../../utils/date';
@@ -7,7 +7,7 @@ import { formatDateWithOrdinal } from '../../utils/date';
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
   return projects.map((project) => ({
-    params: { slug: project.slug },
+    params: { slug: project.id },
     props: { project },
   }));
 }
@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 type Props = { project: CollectionEntry<'projects'> };
 
 const { project } = Astro.props;
-const { Content } = await project.render();
+const { Content } = await render(project);
 
 // Get related blog posts that contain the project's blog_tag
 const allBlogPosts = await getCollection('blog');
@@ -49,9 +49,7 @@ const displayDate = formatDateWithOrdinal(project.data.date);
       </div>
       <p class="project-description">{project.data.description}</p>
       <p class="project-date">
-        <time datetime={project.data.date.toISOString()}>
-          {displayDate}
-        </time>
+        <time datetime={project.data.date.toISOString()}>{displayDate}</time>
       </p>
     </header>
     <div class="project-image">
@@ -67,26 +65,24 @@ const displayDate = formatDateWithOrdinal(project.data.date);
       <Content />
     </div>
 
-    {
-      relatedPosts.length > 0 && (
-        <>
-          <hr class="divider" />
-          <section class="related-posts">
-            <h2>Related Blog Posts</h2>
-            <ul class="post-list">
-              {relatedPosts.map((post) => (
-                <li class="post-item">
-                  <a href={`/blog/${post.slug}`} class="post-link">
-                    <h3 class="post-title">{post.data.title}</h3>
-                    <p class="post-subtitle">{post.data.subtitle}</p>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </>
-      )
-    }
+    {relatedPosts.length > 0 && (
+      <>
+        <hr class="divider" />
+        <section class="related-posts">
+          <h2>Related Blog Posts</h2>
+          <ul class="post-list">
+            {relatedPosts.map((post) => (
+              <li class="post-item">
+                <a href={`/blog/${post.id}`} class="post-link">
+                  <h3 class="post-title">{post.data.title}</h3>
+                  <p class="post-subtitle">{post.data.subtitle}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </>
+    )}
   </article>
 </Base>
 
