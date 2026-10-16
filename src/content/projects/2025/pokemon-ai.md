@@ -1,6 +1,6 @@
 ---
 title: 'Pokémon AI Agent'
-description: 'An autonomous Pokémon agent combining LLM decisions with deterministic gameplay tools.'
+description: 'A Pokémon AI agent combining LLM decisions with deterministic gameplay tools.'
 publishedDate: '2025-08-24'
 updatedDate: '2026-10-15'
 github: 'https://github.com/clambro/ai-plays-pokemon'

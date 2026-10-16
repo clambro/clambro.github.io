@@ -33,7 +33,10 @@ function plainText(node: TextNode): string {
 export function blogExcerpt(markdown: string): string {
   const text = plainText(markdownToMdast(markdown)).replace(/\s+/g, ' ').trim();
   const characters = Array.from(text);
-  return characters.length > 220
-    ? `${characters.slice(0, 219).join('')}…`
-    : text;
+  if (characters.length <= 220) return text;
+
+  const preview = characters.slice(0, 219).join('');
+  const boundary =
+    characters[219] === ' ' ? preview.length : preview.lastIndexOf(' ');
+  return `${preview.slice(0, Math.max(0, boundary)).trimEnd()}…`;
 }
