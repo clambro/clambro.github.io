@@ -1,7 +1,8 @@
 ---
 title: 'Rewatch Companion'
 description: 'Generated essays for in-depth analysis of TV shows.'
-date: '2026-06-09'
+publishedDate: '2026-06-09'
+updatedDate: null
 github: 'https://github.com/clambro/rewatch-companion'
 image: '../../../images/projects/2026/rewatch-companion.png'
 image_alt: 'Rewatch Companion title card reading Essays for viewers who already know the ending.'

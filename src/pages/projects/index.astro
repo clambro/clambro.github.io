@@ -3,10 +3,12 @@ import Base from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import ProjectPreview from '../../components/ProjectPreview.astro';
 
-// Get all projects and sort by date (newest first)
+// Get all projects and sort by last update (newest first)
 const projects = await getCollection('projects');
 const sortedProjects = projects.sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+  (a, b) =>
+    (b.data.updatedDate ?? b.data.publishedDate).valueOf() -
+    (a.data.updatedDate ?? a.data.publishedDate).valueOf()
 );
 
 const featuredProjects = sortedProjects.filter((p) => p.data.is_featured);
@@ -17,45 +19,30 @@ const otherProjects = sortedProjects.filter((p) => !p.data.is_featured);
   title="Projects"
   description="A collection of my various programming projects."
 >
-  <div class="page-header">
-    <h1>Projects</h1>
-    <p class="muted">
-      A collection of my work in ML, backend engineering, and AI.
-    </p>
-  </div>
+  {featuredProjects.length > 0 && (
+    <section class="project-section">
+      <h2>Featured Projects</h2>
+      <div class="projects">
+        {featuredProjects.map((project) => (
+          <ProjectPreview project={project} />
+        ))}
+      </div>
+    </section>
+  )}
 
-  {
-    featuredProjects.length > 0 && (
-      <section class="project-section">
-        <h2>Featured Projects</h2>
-        <div class="projects">
-          {featuredProjects.map((project) => (
-            <ProjectPreview project={project} />
-          ))}
-        </div>
-      </section>
-    )
-  }
-
-  {
-    otherProjects.length > 0 && (
-      <section class="project-section">
-        <h2>Other Projects</h2>
-        <div class="projects">
-          {otherProjects.map((project) => (
-            <ProjectPreview project={project} />
-          ))}
-        </div>
-      </section>
-    )
-  }
+  {otherProjects.length > 0 && (
+    <section class="project-section">
+      <h2>Other Projects</h2>
+      <div class="projects">
+        {otherProjects.map((project) => (
+          <ProjectPreview project={project} />
+        ))}
+      </div>
+    </section>
+  )}
 </Base>
 
 <style>
-  .page-header {
-    margin-top: 3rem;
-  }
-
   .project-section {
     margin-top: 2rem;
     margin-bottom: 2rem;

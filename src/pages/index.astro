@@ -1,56 +1,24 @@
 ---
 import '../styles/global.css';
 import { siteConfig } from '../config';
-
-const canonicalUrl = new URL(Astro.url.pathname, siteConfig.siteUrl).href;
-const ogImage = new URL(siteConfig.ogImage, siteConfig.siteUrl).href;
+import PageMetadata from '../components/PageMetadata.astro';
 ---
 
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{siteConfig.title}</title>
-    <meta name="description" content={siteConfig.description} />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="canonical" href={canonicalUrl} />
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content={siteConfig.title} />
-    <meta property="og:description" content={siteConfig.description} />
-    <meta property="og:image" content={ogImage} />
-    <meta property="og:image:alt" content={siteConfig.title} />
-    <meta property="og:site_name" content={siteConfig.title} />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:creator" content={siteConfig.social.twitterHandle} />
-    <meta name="twitter:title" content={siteConfig.title} />
-    <meta name="twitter:description" content={siteConfig.description} />
-    <meta name="twitter:image" content={ogImage} />
-    <meta name="twitter:image:alt" content={siteConfig.title} />
-
-    <!-- RSS Feed Discovery -->
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title="Costa Lambrinoudis - RSS Feed"
-      href="/feed.xml"
-    />
+    <PageMetadata />
   </head>
   <body>
     <section class="hero">
       <h1>Costa Lambrinoudis</h1>
-      <p class="muted">
-        Started in physics, now building AI workflows and other cool things
-      </p>
+      <p class="muted">Staff engineer working across software, AI, and math</p>
       <div class="main-buttons">
-        <a class="button" href="/projects">Projects</a>
-        <a class="button" href="/blog">Blog</a>
+        <a class="button" href="/projects">
+          Projects
+        </a>
+        <a class="button" href="/blog">
+          Blog
+        </a>
       </div>
       <div class="social-links">
         <a
@@ -99,27 +67,30 @@ const ogImage = new URL(siteConfig.ogImage, siteConfig.siteUrl).href;
       </div>
     </section>
 
-    <div class="copyright">
-      © {new Date().getFullYear()} Costa Lambrinoudis
-    </div>
+    <div class="copyright">© {new Date().getFullYear()} Costa Lambrinoudis</div>
 
     <style>
       body {
+        display: grid;
+        grid-template-rows: 1fr auto 1fr;
+        justify-items: center;
         align-items: center;
-        justify-content: center;
-        position: relative;
+        gap: 1rem;
+        height: auto;
+        min-height: 100svh;
+        padding: 1rem 0;
       }
 
       .hero {
+        grid-row: 2;
         display: grid;
         border-radius: 18px;
         background: linear-gradient(180deg, #111317, #0d0f13);
         border: 1px solid #1e232b;
         text-align: center;
         justify-items: center;
-        min-width: 400px;
         max-width: 800px;
-        width: clamp(400px, 50vw, 800px);
+        width: min(calc(100% - 2rem), clamp(400px, 50vw, 800px));
         padding: clamp(2rem, 4vw, 4rem);
       }
 
@@ -130,6 +101,7 @@ const ogImage = new URL(siteConfig.ogImage, siteConfig.siteUrl).href;
 
       .hero .main-buttons {
         display: flex;
+        flex-wrap: wrap;
         gap: 1rem;
         justify-content: center;
         align-items: center;
@@ -193,10 +165,10 @@ const ogImage = new URL(siteConfig.ogImage, siteConfig.siteUrl).href;
       }
 
       .copyright {
-        position: absolute;
-        bottom: 1rem;
-        left: 50%;
-        transform: translateX(-50%);
+        grid-row: 3;
+        align-self: end;
+        padding-inline: 1rem;
+        text-align: center;
         color: var(--muted);
         font-size: 0.8rem;
       }

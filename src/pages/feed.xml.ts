@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
 
 export const GET: APIRoute = async (context) => {
+  if (!context.site) throw new Error('RSS requires the Astro site URL.');
   const blogPosts = await getCollection('blog');
   const projects = await getCollection('projects');
 
@@ -11,15 +12,15 @@ export const GET: APIRoute = async (context) => {
     ...blogPosts.map((post) => ({
       title: post.data.title,
       description: post.data.subtitle,
-      pubDate: post.data.date,
-      link: `/blog/${post.slug}/`,
+      pubDate: post.data.publishedDate,
+      link: `/blog/${post.id}`,
       categories: ['blog', ...post.data.tags],
     })),
     ...projects.map((project) => ({
       title: project.data.title,
       description: project.data.description,
-      pubDate: project.data.date,
-      link: `/projects/${project.slug}/`,
+      pubDate: project.data.publishedDate,
+      link: `/projects/${project.id}`,
       categories: ['project', project.data.blog_tag],
     })),
   ].sort(
@@ -30,6 +31,7 @@ export const GET: APIRoute = async (context) => {
     title: 'Costa Lambrinoudis',
     description: 'Latest blog posts and projects by Costa Lambrinoudis',
     site: context.site,
+    trailingSlash: false,
     items: allItems,
     customData: `<language>en-us</language>`,
   });

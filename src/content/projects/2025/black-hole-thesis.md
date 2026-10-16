@@ -1,7 +1,8 @@
 ---
 title: 'Black Hole Simulation'
 description: 'A redo of my undergraduate thesis simulating black hole formation.'
-date: '2025-10-25'
+publishedDate: '2025-10-25'
+updatedDate: null
 github: 'https://github.com/clambro/black-hole-thesis'
 image: '../../../images/projects/2025/black-hole-thesis.jpg'
 image_alt: 'The Gargantua black hole from Interstellar.'

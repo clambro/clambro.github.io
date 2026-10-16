@@ -1,13 +1,13 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
-import { formatDateWithOrdinal } from '../../utils/date';
+import { formatDate } from '../../utils/date';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post },
   }));
 }
@@ -15,34 +15,42 @@ export async function getStaticPaths() {
 type Props = { post: CollectionEntry<'blog'> };
 
 const { post } = Astro.props as Props;
-const { Content } = await post.render();
-const displayDate = formatDateWithOrdinal(post.data.date);
+const { Content } = await render(post);
+const displayDate = formatDate(post.data.publishedDate);
 ---
 
-<Base title={post.data.title} description={post.data.subtitle} type="article">
+<Base
+  title={post.data.title}
+  description={post.data.subtitle}
+  type="article"
+  image={post.data.image}
+  imageAlt={post.data.image_alt}
+>
   <article class="post-page">
     <header class="post-header">
       <h1>{post.data.title}</h1>
       <p class="subtitle">{post.data.subtitle}</p>
       <p class="date">
-        <time datetime={post.data.date.toISOString()}>{displayDate}</time>
+        <time datetime={post.data.publishedDate.toISOString()}>
+          {displayDate}
+        </time>
         <span class="post-tags">
-          {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+          {post.data.tags.map((tag) => (
+            <span class="tag">{tag}</span>
+          ))}
         </span>
       </p>
-      {
-        post.data.image && (
-          <div class="post-image">
-            <Image
-              src={post.data.image as ImageMetadata}
-              alt={post.data.image_alt ?? ''}
-              width={800}
-              height={450}
-              fit="contain"
-            />
-          </div>
-        )
-      }
+      {post.data.image && (
+        <div class="post-image">
+          <Image
+            src={post.data.image as ImageMetadata}
+            alt={post.data.image_alt ?? ''}
+            width={800}
+            height={450}
+            fit="contain"
+          />
+        </div>
+      )}
     </header>
     <div class="post-content">
       <Content />
@@ -98,28 +106,28 @@ const displayDate = formatDateWithOrdinal(post.data.date);
   }
 
   :global(.image-modal) {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+    border: 0;
+    padding: 0;
+    max-width: 95vw;
+    max-height: 95vh;
+    background: transparent;
     cursor: zoom-out;
   }
 
-  :global(.image-modal .modal-content) {
-    max-width: 95%;
-    max-height: 95%;
+  :global(.image-modal::backdrop) {
+    background: rgba(0, 0, 0, 0.9);
   }
 
   :global(.image-modal img) {
+    display: block;
     max-width: 100%;
-    max-height: 95vh;
+    max-height: 80vh;
     object-fit: contain;
+  }
+
+  .post-content :global(img[role='button']:focus-visible) {
+    outline: 3px solid var(--accent);
+    outline-offset: 4px;
   }
 
   @media (max-width: 768px) {
@@ -134,28 +142,47 @@ const displayDate = formatDateWithOrdinal(post.data.date);
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const images =
-      document.querySelectorAll<HTMLImageElement>('.post-content img');
+  const images =
+    document.querySelectorAll<HTMLImageElement>('.post-content img');
 
-    images.forEach((img) => {
-      img.addEventListener('click', () => {
-        // Create modal
-        const modal = document.createElement('div');
-        modal.className = 'image-modal';
-        modal.innerHTML = `
-          <div class="modal-content">
-            <img src="${img.src}" alt="${img.alt}">
-          </div>
-        `;
+  images.forEach((img) => {
+    // Preserve links that deliberately wrap an image.
+    if (img.closest('a')) return;
+    img.tabIndex = 0;
+    img.setAttribute('role', 'button');
+    img.setAttribute('aria-haspopup', 'dialog');
+    img.setAttribute(
+      'aria-label',
+      `Enlarge image: ${img.alt || 'Article image'}`
+    );
 
-        // Close on click
-        modal.addEventListener('click', () => {
+    function openImage() {
+      const modal = document.createElement('dialog');
+      modal.className = 'image-modal';
+      modal.setAttribute('aria-label', img.alt || 'Enlarged article image');
+      const enlarged = document.createElement('img');
+      enlarged.src = img.currentSrc || img.src;
+      enlarged.alt = img.alt;
+      modal.append(enlarged);
+      modal.addEventListener('click', () => modal.close());
+      modal.addEventListener(
+        'close',
+        () => {
           modal.remove();
-        });
+          img.focus();
+        },
+        { once: true }
+      );
+      document.body.append(modal);
+      modal.showModal();
+    }
 
-        document.body.appendChild(modal);
-      });
+    img.addEventListener('click', openImage);
+    img.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openImage();
+      }
     });
   });
 </script>

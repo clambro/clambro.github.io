@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://costantinos.dev',
   trailingSlash: 'never',
+  compressHTML: true,
 
   image: {
     layout: 'constrained',

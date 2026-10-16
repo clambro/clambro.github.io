@@ -1,14 +1,17 @@
-import { defineCollection, z } from 'astro:content';
-import { validateBlogTag } from '../types/blog_tag';
+import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
+import { validateBlogTag } from './types/blog_tag';
 
 const projects = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
       description: z.string(),
-      date: z.coerce.date(),
-      github: z.string().url(),
+      publishedDate: z.coerce.date(),
+      updatedDate: z.coerce.date().nullable(),
+      github: z.url(),
       image: image(),
       image_alt: z.string(),
       is_featured: z.boolean().default(false),
@@ -17,12 +20,12 @@ const projects = defineCollection({
 });
 
 const blog = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
       subtitle: z.string(),
-      date: z.coerce.date(),
+      publishedDate: z.coerce.date(),
       image: image().optional(),
       image_alt: z.string().optional(),
       tags: z.array(z.string()).transform((tags) => tags.map(validateBlogTag)),

@@ -1,6 +1,6 @@
 export const siteConfig = {
   title: 'Costa Lambrinoudis',
-  description: 'AI Engineer | Projects & Blog',
+  description: 'Staff Engineer | Projects & Blog',
   siteUrl: 'https://costantinos.dev',
   ogImage: '/open-graph-default.png',
   social: {

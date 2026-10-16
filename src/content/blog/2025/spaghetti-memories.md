@@ -1,7 +1,7 @@
 ---
-title: 'Spaghettifiying Down Memory Lane'
+title: 'Spaghettifying Down Memory Lane'
 subtitle: 'Revisiting my undergraduate thesis after nearly a decade.'
-date: '2025-10-31'
+publishedDate: '2025-10-31'
 tags: ['black-hole-thesis']
 ---
 
@@ -60,7 +60,7 @@ ChatGPT's solution didn't pan out, but the project was still an overall success.
 Here's a video of black hole formation that's far flashier than anything I showed at my final thesis presentation. The sharp ring you see at the end is the event horizon forming. For a more detailed description of what's going on (and more videos!) you can check out [the full documentation here](https://github.com/clambro/black-hole-thesis/blob/main/docs/description.md).
 
 <div class="video-container">
-  <iframe src="https://youtube.com/embed/Eq4IcRezF-0" title="Wave simulation video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <iframe src="https://youtube.com/embed/Eq4IcRezF-0" title="Black hole formation simulation" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
 My professor was right that I'd never go back after I started making money, but no one said I couldn't drop by for a visit. Nine years ago, I chose MATLAB because I knew my limits. This time around, I chose Rust because I'd grown past them. I did get more than I bargained for though. Instead of a quick learning exercise with an element of nostalgia, I fell into a month-long battle with overconfident language models and finicky simulations that may or may not converge depending on which side of the bed you woke up on. And I finally got an answer to that conversation from all those years ago: Yes, the compiled language approach was worth it; I just needed a decade of experience first.

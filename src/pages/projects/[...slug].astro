@@ -1,13 +1,13 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
-import { formatDateWithOrdinal } from '../../utils/date';
+import { formatDate } from '../../utils/date';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
   return projects.map((project) => ({
-    params: { slug: project.slug },
+    params: { slug: project.id },
     props: { project },
   }));
 }
@@ -15,26 +15,29 @@ export async function getStaticPaths() {
 type Props = { project: CollectionEntry<'projects'> };
 
 const { project } = Astro.props;
-const { Content } = await project.render();
+const { Content } = await render(project);
 
 // Get related blog posts that contain the project's blog_tag
 const allBlogPosts = await getCollection('blog');
 const relatedPosts = allBlogPosts
   .filter((post) => post.data.tags.includes(project.data.blog_tag))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  .sort(
+    (a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf()
+  );
 
-const displayDate = formatDateWithOrdinal(project.data.date);
+const displayDate = formatDate(project.data.publishedDate);
 ---
 
 <Base
   title={project.data.title}
   description={project.data.description}
   type="article"
+  image={project.data.image}
+  imageAlt={project.data.image_alt}
 >
   <article class="project-page">
     <header class="project-header">
       <div class="title-group">
-        <h1>Project: {project.data.title}</h1>
         <a
           href={project.data.github}
           target="_blank"
@@ -46,12 +49,24 @@ const displayDate = formatDateWithOrdinal(project.data.date);
             <use href="/icons/github.svg#github"></use>
           </svg>
         </a>
+        <h1>{project.data.title}</h1>
       </div>
       <p class="project-description">{project.data.description}</p>
       <p class="project-date">
-        <time datetime={project.data.date.toISOString()}>
+        Published{' '}
+        <time datetime={project.data.publishedDate.toISOString()}>
           {displayDate}
         </time>
+        {project.data.updatedDate &&
+          project.data.updatedDate.valueOf() !==
+            project.data.publishedDate.valueOf() && (
+            <>
+              {' · Updated '}
+              <time datetime={project.data.updatedDate.toISOString()}>
+                {formatDate(project.data.updatedDate)}
+              </time>
+            </>
+          )}
       </p>
     </header>
     <div class="project-image">
@@ -67,26 +82,24 @@ const displayDate = formatDateWithOrdinal(project.data.date);
       <Content />
     </div>
 
-    {
-      relatedPosts.length > 0 && (
-        <>
-          <hr class="divider" />
-          <section class="related-posts">
-            <h2>Related Blog Posts</h2>
-            <ul class="post-list">
-              {relatedPosts.map((post) => (
-                <li class="post-item">
-                  <a href={`/blog/${post.slug}`} class="post-link">
-                    <h3 class="post-title">{post.data.title}</h3>
-                    <p class="post-subtitle">{post.data.subtitle}</p>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </>
-      )
-    }
+    {relatedPosts.length > 0 && (
+      <>
+        <hr class="divider" />
+        <section class="related-posts">
+          <h2>Related Blog Posts</h2>
+          <ul class="post-list">
+            {relatedPosts.map((post) => (
+              <li class="post-item">
+                <a href={`/blog/${post.id}`} class="post-link">
+                  <h3 class="post-title">{post.data.title}</h3>
+                  <p class="post-subtitle">{post.data.subtitle}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </>
+    )}
   </article>
 </Base>
 
@@ -134,7 +147,7 @@ const displayDate = formatDateWithOrdinal(project.data.date);
   .project-date {
     font-size: 0.9rem;
     color: var(--muted);
-    margin-top: 1rem;
+    margin-top: 0.5rem;
   }
 
   .project-image {
