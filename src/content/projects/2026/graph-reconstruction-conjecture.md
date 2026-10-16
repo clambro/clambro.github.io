@@ -3,7 +3,7 @@ title: 'Graph Reconstruction Conjecture'
 description: 'An evolutionary search for a counterexample to the graph reconstruction conjecture.'
 date: '2026-07-27'
 github: 'https://github.com/clambro/graph-reconstruction-conjecture'
-image: '../../../images/projects/2026/graph-reconstruction-conjecture.svg'
+image: '../../../images/projects/2026/graph-reconstruction-conjecture.png'
 image_alt: 'Three disconnected clusters of graph vertices found by the evolutionary search.'
 is_featured: false
 blog_tag: 'graph-reconstruction'
