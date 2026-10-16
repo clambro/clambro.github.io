@@ -24,31 +24,27 @@ const otherProjects = sortedProjects.filter((p) => !p.data.is_featured);
     </p>
   </div>
 
-  {
-    featuredProjects.length > 0 && (
-      <section class="project-section">
-        <h2>Featured Projects</h2>
-        <div class="projects">
-          {featuredProjects.map((project) => (
-            <ProjectPreview project={project} />
-          ))}
-        </div>
-      </section>
-    )
-  }
+  {featuredProjects.length > 0 && (
+    <section class="project-section">
+      <h2>Featured Projects</h2>
+      <div class="projects">
+        {featuredProjects.map((project) => (
+          <ProjectPreview project={project} />
+        ))}
+      </div>
+    </section>
+  )}
 
-  {
-    otherProjects.length > 0 && (
-      <section class="project-section">
-        <h2>Other Projects</h2>
-        <div class="projects">
-          {otherProjects.map((project) => (
-            <ProjectPreview project={project} />
-          ))}
-        </div>
-      </section>
-    )
-  }
+  {otherProjects.length > 0 && (
+    <section class="project-section">
+      <h2>Other Projects</h2>
+      <div class="projects">
+        {otherProjects.map((project) => (
+          <ProjectPreview project={project} />
+        ))}
+      </div>
+    </section>
+  )}
 </Base>
 
 <style>

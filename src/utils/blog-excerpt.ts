@@ -21,7 +21,9 @@ function plainText(node: TextNode): string {
       return ' ';
     default: {
       const text = (node.children ?? []).map(plainText).join('');
-      return ['paragraph', 'heading', 'listItem', 'tableCell'].includes(node.type)
+      return ['paragraph', 'heading', 'listItem', 'tableCell'].includes(
+        node.type
+      )
         ? `${text} `
         : text;
     }

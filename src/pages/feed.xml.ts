@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
 
 export const GET: APIRoute = async (context) => {
+  if (!context.site) throw new Error('RSS requires the Astro site URL.');
   const blogPosts = await getCollection('blog');
   const projects = await getCollection('projects');
 
